@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="portrait_movies_columns">1</integer>
-    <integer name="landscape_movies_columns">2</integer>
+    <integer name="portrait_columns_number">1</integer>
+    <integer name="landscape_columns_number">2</integer>
+    <integer name="portrait_tablet_columns_number">2</integer>
+    <integer name="landscape_tablet_columns_number">3</integer>
 </resources>

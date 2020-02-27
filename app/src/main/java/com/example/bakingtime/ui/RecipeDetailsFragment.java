@@ -15,16 +15,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MasterListFragment extends Fragment implements MasterListAdapter.RecipesAdapterOnClickHandler {
+public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdapter.RecipeDetailsAdapterOnClickHandler {
 
-    public MasterListFragment() {
+    public RecipeDetailsFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_recipes_list, container, false);
-        RecyclerView mRecipesRecyclerView = rootView.findViewById(R.id.rv_recipes);
+        final View rootView = inflater.inflate(R.layout.fragment_recipe_details_list, container, false);
+        RecyclerView mRecipesRecyclerView = rootView.findViewById(R.id.rv_recipe_details);
         mRecipesRecyclerView.setHasFixedSize(true);
         ArrayList<Integer> l = new ArrayList<>();
         l.add(1);
@@ -35,14 +35,14 @@ public class MasterListFragment extends Fragment implements MasterListAdapter.Re
         l.add(6);
         l.add(7);
         l.add(8);
-        MasterListAdapter mAdapter = new MasterListAdapter(this, l);
-        mRecipesRecyclerView.setAdapter(mAdapter);
+        mRecipesRecyclerView.setAdapter(new RecipeDetailsAdapter(this, l));
 
         return rootView;
     }
 
     @Override
     public void OnRecipeClicked(int position) {
-        ((MainActivity) requireActivity()).show(position);
+        Log.d("TEST (Details fragment)", "Recipe detail number " + (position + 1) + " was clicked");
+        ((RecipeDetailsActivity) requireActivity()).show(position);
     }
 }

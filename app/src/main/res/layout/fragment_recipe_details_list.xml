@@ -3,5 +3,5 @@
 <!-- TODO add copyright -->
 
 <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@id/rv_recipes"
-    style="@style/recipeListLandscapeStyle" />
+    android:id="@+id/rv_recipe_details"
+    style="@style/recipeListPortraitStyle" />

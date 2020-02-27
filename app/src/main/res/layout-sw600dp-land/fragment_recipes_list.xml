@@ -2,9 +2,6 @@
 
 <!-- TODO add copyright -->
 
-<androidx.recyclerview.widget.RecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/rv_recipes"
-    style="@style/recipeListStyle"
-    app:spanCount="3" />
+    style="@style/recipeListTabletLandscapeStyle" />

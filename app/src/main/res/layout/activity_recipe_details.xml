@@ -8,8 +8,8 @@
     android:background="@color/colorPrimary">
 
     <fragment
-        android:id="@+id/Recipes_fragment"
-        android:name="com.example.bakingtime.ui.RecipesFragment"
+        android:id="@+id/recipe_details_fragment"
+        android:name="com.example.bakingtime.ui.RecipeDetailsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

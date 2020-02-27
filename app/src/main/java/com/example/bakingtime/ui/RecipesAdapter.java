@@ -1,5 +1,6 @@
 package com.example.bakingtime.ui;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MasterListAdapter extends RecyclerView.Adapter<MasterListAdapter.RecipeViewHolder> {
+public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder> {
 
     private final RecipesAdapterOnClickHandler mClickHandler;
     private List<Integer> mRecipesData;
@@ -21,7 +22,7 @@ public class MasterListAdapter extends RecyclerView.Adapter<MasterListAdapter.Re
         void OnRecipeClicked(int position);
     }
 
-    MasterListAdapter(RecipesAdapterOnClickHandler clickHandler, List<Integer> recipesData) {
+    RecipesAdapter(RecipesAdapterOnClickHandler clickHandler, List<Integer> recipesData) {
         mClickHandler = clickHandler;
         mRecipesData = recipesData;
     }
@@ -58,6 +59,7 @@ public class MasterListAdapter extends RecyclerView.Adapter<MasterListAdapter.Re
 
         @Override
         public void onClick(View v) {
+            Log.d("TEST (Recipes adapter)", "Recipe number " + (getAdapterPosition() + 1) + " was clicked");
             mClickHandler.OnRecipeClicked(getAdapterPosition());
         }
     }
