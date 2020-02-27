@@ -2,9 +2,19 @@
 
 <!-- TODO add copyright -->
 
-<fragment
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/master_list_fragment"
-    android:name="com.example.bakingtime.ui.MasterListFragment"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <fragment
+        android:id="@+id/master_list_fragment"
+        android:name="com.example.bakingtime.ui.MasterListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ProgressBar
+        android:id="@+id/pb_loading_indicator"
+        style="@style/progressBar" />
+
+</FrameLayout>

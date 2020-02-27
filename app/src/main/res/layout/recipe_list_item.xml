@@ -6,8 +6,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
-    android:layout_width="match_parent"
-    android:background="@android:color/background_dark">
+    android:layout_width="match_parent">
 
     <TextView
         android:id="@+id/recipe_name"
@@ -15,6 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="40dp"
-        android:textStyle="bold" />
+        android:textSize="25sp"
+        android:background="@color/colorAccent"/>
 
 </androidx.cardview.widget.CardView>
