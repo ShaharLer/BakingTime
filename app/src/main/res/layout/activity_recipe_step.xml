@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- TODO add copyright -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".ui.RecipeStepActivity">
+
+    <fragment
+        android:id="@+id/recipe_step_fragment"
+        android:name="com.example.bakingtime.ui.RecipeStepFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ProgressBar
+        android:id="@+id/pb_loading_indicator"
+        style="@style/progressBar" />
+
+</FrameLayout>

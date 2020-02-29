@@ -4,4 +4,4 @@
 
 <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/rv_recipe_details"
-    style="@style/recipeListTabletLandscapeStyle" />
+    style="@style/recipeDetailsListTabletLandscapeStyle" />

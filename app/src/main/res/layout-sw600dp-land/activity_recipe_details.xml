@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:background="@color/colorPrimary"
+    tools:context=".ui.RecipeDetailsActivity">
+
+    <fragment
+        android:id="@id/recipe_details_fragment"
+        android:name="com.example.bakingtime.ui.RecipeDetailsFragment"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent" />
+
+    <View
+        android:id="@+id/line_seperator"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray" />
+
+    <fragment
+        android:id="@id/recipe_step_fragment"
+        android:name="com.example.bakingtime.ui.RecipeStepFragment"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

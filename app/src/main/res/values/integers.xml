@@ -3,5 +3,6 @@
     <integer name="portrait_columns_number">1</integer>
     <integer name="landscape_columns_number">2</integer>
     <integer name="portrait_tablet_columns_number">2</integer>
-    <integer name="landscape_tablet_columns_number">3</integer>
+    <integer name="landscape_tablet_recipes_columns_number">3</integer>
+    <integer name="landscape_tablet_details_columns_number">1</integer>
 </resources>

@@ -27,7 +27,11 @@
     </style>
 
     <style name="recipeListTabletLandscapeStyle" parent="recyclerViewListStyle">
-        <item name="spanCount">@integer/landscape_tablet_columns_number</item>
+        <item name="spanCount">@integer/landscape_tablet_recipes_columns_number</item>
+    </style>
+
+    <style name="recipeDetailsListTabletLandscapeStyle" parent="recyclerViewListStyle">
+        <item name="spanCount">@integer/landscape_tablet_details_columns_number</item>
     </style>
 
     <style name="progressBar">
