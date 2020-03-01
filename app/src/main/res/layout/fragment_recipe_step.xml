@@ -20,7 +20,6 @@
             android:background="@color/colorAccent"
             android:gravity="center"
             android:padding="30dp"
-            android:text="Media Player"
             android:textSize="25sp" />
 
     </androidx.cardview.widget.CardView>
@@ -29,16 +28,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="15dp"
-        android:layout_weight="5">
+        android:layout_weight="6">
 
         <TextView
-            android:id="@+id/recipe_step_instruction"
+            android:id="@+id/recipe_step_description"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"
             android:gravity="center"
             android:padding="30dp"
-            android:text="Recipe step instruction"
             android:textSize="25sp" />
 
     </androidx.cardview.widget.CardView>

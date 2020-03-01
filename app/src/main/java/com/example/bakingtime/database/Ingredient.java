@@ -1,16 +1,37 @@
 package com.example.bakingtime.database;
 
-public class Ingredient {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Ingredient implements Parcelable {
 
     private double quantity;
     private String measure;
-    private String name;
+    private String ingredient;
 
-    public Ingredient(double quantity, String measure, String name) {
+    public Ingredient(double quantity, String measure, String ingredient) {
         this.quantity = quantity;
         this.measure = measure;
-        this.name = name;
+        this.ingredient = ingredient;
     }
+
+    private Ingredient(Parcel in) {
+        quantity = in.readDouble();
+        measure = in.readString();
+        ingredient = in.readString();
+    }
+
+    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
+        @Override
+        public Ingredient createFromParcel(Parcel in) {
+            return new Ingredient(in);
+        }
+
+        @Override
+        public Ingredient[] newArray(int size) {
+            return new Ingredient[size];
+        }
+    };
 
     public double getQuantity() {
         return quantity;
@@ -28,11 +49,23 @@ public class Ingredient {
         this.measure = measure;
     }
 
-    public String getName() {
-        return name;
+    public String getIngredient() {
+        return ingredient;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setIngredient(String ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(quantity);
+        dest.writeString(measure);
+        dest.writeString(ingredient);
     }
 }

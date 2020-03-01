@@ -1,48 +1,66 @@
 package com.example.bakingtime.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.bakingtime.R;
-
-import java.util.ArrayList;
+import com.example.bakingtime.database.Recipe;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdapter.RecipeDetailsAdapterOnClickHandler {
+public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdapter.RecipeDetailsOnClickHandler {
+
+    private Recipe mRecipe;
 
     public RecipeDetailsFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (mRecipe == null) {
+            ((RecipeDetailsActivity) requireActivity()).closeOnError();
+            return null;
+        }
+
         final View rootView = inflater.inflate(R.layout.fragment_recipe_details_list, container, false);
         RecyclerView mRecipesRecyclerView = rootView.findViewById(R.id.rv_recipe_details);
         mRecipesRecyclerView.setHasFixedSize(true);
-        ArrayList<Integer> l = new ArrayList<>();
-        l.add(1);
-        l.add(2);
-        l.add(3);
-        l.add(4);
-        l.add(5);
-        l.add(6);
-        l.add(7);
-        l.add(8);
-        mRecipesRecyclerView.setAdapter(new RecipeDetailsAdapter(this, l));
-
+        RecipeDetailsAdapter mRecipeDetailsAdapter = new RecipeDetailsAdapter(this, mRecipe.getIngredients(), mRecipe.getSteps());
+        mRecipesRecyclerView.setAdapter(mRecipeDetailsAdapter);
         return rootView;
     }
 
+    void setRecipe(Recipe recipe) {
+        this.mRecipe = recipe;
+    }
+
     @Override
-    public void OnRecipeClicked(int position) {
+    public void onIngredientsClicked() {
+        Log.d("TEST (Details fragment)", "Recipe ingredients was clicked");
+        Toast.makeText(getContext(), "Clicked on the recipe ingredients", Toast.LENGTH_LONG).show();
+//        ((RecipeDetailsActivity) requireActivity()).show(0);
+    }
+
+    @Override
+    public void onStepClicked(int position) {
         Log.d("TEST (Details fragment)", "Recipe detail number " + (position + 1) + " was clicked");
-        ((RecipeDetailsActivity) requireActivity()).show(position);
+        Intent intent = new Intent(getActivity(), RecipeStepActivity.class);
+        intent.putExtra(Intent.EXTRA_TEXT, mRecipe.getSteps().get(position));
+        startActivity(intent);
+//        ((RecipeDetailsActivity) requireActivity()).show(position);
     }
 }

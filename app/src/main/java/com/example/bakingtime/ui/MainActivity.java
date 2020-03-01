@@ -2,9 +2,9 @@ package com.example.bakingtime.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.bakingtime.R;
+import com.example.bakingtime.database.Recipe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,9 +16,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void show(int position) {
-        Log.d("TEST (MainActivity)", "Recipe number " + (position + 1) + " was clicked");
+    public void show(Recipe recipe) {
         Intent intent = new Intent(this, RecipeDetailsActivity.class);
+        intent.putExtra(Intent.EXTRA_TEXT, recipe);
         startActivity(intent);
     }
 }

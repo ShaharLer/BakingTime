@@ -17,15 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder> {
 
     private final RecipesAdapterOnClickHandler mClickHandler;
-    private List<Recipe> mRecipesData;
+    private List<Recipe> mRecipes;
 
     public interface RecipesAdapterOnClickHandler {
-        void OnRecipeClicked(int position);
+        void onRecipeClicked(int position);
     }
 
-    RecipesAdapter(RecipesAdapterOnClickHandler clickHandler, List<Recipe> recipesData) {
+    RecipesAdapter(RecipesAdapterOnClickHandler clickHandler, List<Recipe> recipes) {
         mClickHandler = clickHandler;
-        mRecipesData = recipesData;
+        mRecipes = recipes;
     }
 
     @NonNull
@@ -39,13 +39,17 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeVi
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-        holder.recipeName.setText(mRecipesData.get(position).getName());
+        holder.recipeName.setText(mRecipes.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        if (mRecipesData == null) return 0;
-        return mRecipesData.size();
+        if (mRecipes == null) return 0;
+        return mRecipes.size();
+    }
+
+    List<Recipe> getRecipes() {
+        return mRecipes;
     }
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -61,7 +65,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeVi
         @Override
         public void onClick(View v) {
             Log.d("TEST (Recipes adapter)", "Recipe number " + (getAdapterPosition() + 1) + " was clicked");
-            mClickHandler.OnRecipeClicked(getAdapterPosition());
+            mClickHandler.onRecipeClicked(getAdapterPosition());
         }
     }
 }

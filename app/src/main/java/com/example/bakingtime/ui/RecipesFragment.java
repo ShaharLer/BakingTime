@@ -1,5 +1,6 @@
 package com.example.bakingtime.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.example.bakingtime.R;
-import com.example.bakingtime.database.RecipesClient;
 import com.example.bakingtime.database.Recipe;
+import com.example.bakingtime.database.RecipesClient;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RecipesFragment extends Fragment implements RecipesAdapter.RecipesAdapterOnClickHandler {
 
     private static final String BAKING_RECIPES_HTTP_URL = "https://d17h27t6h515a5.cloudfront.net/";
+    private RecipesAdapter mRecipesAdapter;
     private RecyclerView mRecipesRecyclerView;
     private ProgressBar mProgressBar;
     private LinearLayout mErrorLayout;
@@ -55,7 +57,8 @@ public class RecipesFragment extends Fragment implements RecipesAdapter.RecipesA
             @Override
             public void onResponse(@NonNull Call<List<Recipe>> call, @NonNull Response<List<Recipe>> response) {
                 List<Recipe> recipes = response.body();
-                mRecipesRecyclerView.setAdapter(new RecipesAdapter(RecipesFragment.this, recipes));
+                mRecipesAdapter = new RecipesAdapter(RecipesFragment.this, recipes);
+                mRecipesRecyclerView.setAdapter(mRecipesAdapter);
                 showData();
             }
 
@@ -98,8 +101,11 @@ public class RecipesFragment extends Fragment implements RecipesAdapter.RecipesA
     }
 
     @Override
-    public void OnRecipeClicked(int position) {
+    public void onRecipeClicked(int position) {
         Log.d("TEST (Recipes fragment)", "Recipe number " + (position + 1) + " was clicked");
-        ((MainActivity) requireActivity()).show(position);
+        Intent intent = new Intent(getActivity(), RecipeDetailsActivity.class);
+        intent.putExtra(Intent.EXTRA_TEXT, mRecipesAdapter.getRecipes().get(position));
+        startActivity(intent);
+//        ((MainActivity) requireActivity()).show(mRecipesAdapter.getRecipes().get(position));
     }
 }

@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.bakingtime.R;
+import com.example.bakingtime.database.Ingredient;
+import com.example.bakingtime.database.Step;
 
 import java.util.List;
 
@@ -15,16 +17,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdapter.RecipeDetailsViewHolder> {
 
-    private final RecipeDetailsAdapterOnClickHandler mClickHandler;
-    private List<Integer> mRecipesDetailsData;
+    private final RecipeDetailsOnClickHandler mClickHandler;
+    private List<Ingredient> mIngredients;
+    private List<Step> mSteps;
 
-    public interface RecipeDetailsAdapterOnClickHandler {
-        void OnRecipeClicked(int position);
+    public interface RecipeDetailsOnClickHandler {
+        void onIngredientsClicked();
+        void onStepClicked(int position);
     }
 
-    RecipeDetailsAdapter(RecipeDetailsAdapterOnClickHandler clickHandler, List<Integer> recipesDetailsData) {
+    RecipeDetailsAdapter(RecipeDetailsOnClickHandler clickHandler, List<Ingredient> ingredients, List<Step> recipesSteps) {
         mClickHandler = clickHandler;
-        mRecipesDetailsData = recipesDetailsData;
+        mIngredients = ingredients;
+        mSteps = recipesSteps;
     }
 
     @NonNull
@@ -39,16 +44,29 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
     @Override
     public void onBindViewHolder(@NonNull RecipeDetailsViewHolder holder, int position) {
         if (position == 0) {
-            holder.recipeDetail.setText("Recipe Ingredients");
+//            StringBuilder ingredients = new StringBuilder();
+//            for (int i = 0; i < mIngredients.size(); i++) {
+//                Ingredient ingredient = mIngredients.get(i);
+//                ingredients.append(String.valueOf(ingredient.getQuantity())).append(" ")
+//                        .append(ingredient.getMeasure()).append(" ")
+//                        .append(ingredient.getIngredient());
+//
+//                if (i < mIngredients.size() - 1) {
+//                    ingredients.append(", ");
+//                }
+//            }
+            Ingredient ingredient = mIngredients.get(0);
+            String ingredients = ingredient.getQuantity() + " " + ingredient.getMeasure() + " " + ingredient.getIngredient();
+            holder.recipeDetail.setText(ingredients);
         } else {
-            holder.recipeDetail.setText("Recipe Step Description");
+            holder.recipeDetail.setText(mSteps.get(position - 1).getShortDescription());
         }
     }
 
     @Override
     public int getItemCount() {
-        if (mRecipesDetailsData == null) return 0;
-        return mRecipesDetailsData.size();
+        if (mIngredients == null || mSteps == null) return 0;
+        return (mSteps.size() + 1); // 1 for the ingredients list
     }
 
     public class RecipeDetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -63,8 +81,14 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
 
         @Override
         public void onClick(View v) {
-            Log.d("TEST (Details adapter)", "Recipe detail number " + (getAdapterPosition() + 1) + " was clicked");
-            mClickHandler.OnRecipeClicked(getAdapterPosition());
+            int position = getAdapterPosition();
+            if (position == 0) {
+                Log.d("TEST (Details adapter)", "Recipe ingredients was clicked");
+                mClickHandler.onIngredientsClicked();
+            } else {
+                Log.d("TEST (Details adapter)", "Recipe step number " + (getAdapterPosition()) + " was clicked");
+                mClickHandler.onStepClicked(getAdapterPosition() - 1);
+            }
         }
     }
 

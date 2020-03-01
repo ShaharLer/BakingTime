@@ -8,9 +8,8 @@
     android:background="@color/colorPrimary"
     tools:context=".ui.RecipeDetailsActivity">
 
-    <fragment
+    <FrameLayout
         android:id="@id/recipe_details_fragment"
-        android:name="com.example.bakingtime.ui.RecipeDetailsFragment"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent" />
