@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.bakingtime.R;
+import com.example.bakingtime.database.Recipe;
 
 import java.util.List;
 
@@ -16,13 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder> {
 
     private final RecipesAdapterOnClickHandler mClickHandler;
-    private List<Integer> mRecipesData;
+    private List<Recipe> mRecipesData;
 
     public interface RecipesAdapterOnClickHandler {
         void OnRecipeClicked(int position);
     }
 
-    RecipesAdapter(RecipesAdapterOnClickHandler clickHandler, List<Integer> recipesData) {
+    RecipesAdapter(RecipesAdapterOnClickHandler clickHandler, List<Recipe> recipesData) {
         mClickHandler = clickHandler;
         mRecipesData = recipesData;
     }
@@ -38,7 +39,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeVi
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-        holder.recipeName.setText("Nutella Pie");
+        holder.recipeName.setText(mRecipesData.get(position).getName());
     }
 
     @Override

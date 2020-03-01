@@ -34,12 +34,45 @@
         <item name="spanCount">@integer/landscape_tablet_details_columns_number</item>
     </style>
 
+    <style name="frameLayoutRecipesListFragment">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
     <style name="progressBar">
-        <item name="android:id">@id/pb_loading_indicator</item>
         <item name="android:layout_width">@dimen/progress_bar_dimension</item>
         <item name="android:layout_height">@dimen/progress_bar_dimension</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="errorLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="errorTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="paddingStart">@dimen/error_message_horizontal_padding</item>
+        <item name="paddingEnd">@dimen/error_message_horizontal_padding</item>
+        <item name="android:text">@string/error_message</item>
+        <item name="android:textSize">@dimen/error_message_text_size</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="refreshDataButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/refresh_button_margin_top</item>
+        <item name="android:text">@string/refresh_button_text</item>
+        <item name="buttonStyle">@style/TextAppearance.AppCompat.Button</item>
     </style>
 
 </resources>

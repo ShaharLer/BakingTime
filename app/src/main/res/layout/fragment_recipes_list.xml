@@ -2,6 +2,15 @@
 
 <!-- TODO add copyright -->
 
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rv_recipes"
-    style="@style/recipeListPortraitStyle" />
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/frameLayoutRecipesListFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recipes"
+        style="@style/recipeListPortraitStyle" />
+
+    <include layout="@layout/error_layout" />
+
+    <include layout="@layout/progress_bar" />
+
+</FrameLayout>
