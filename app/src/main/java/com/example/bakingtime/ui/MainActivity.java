@@ -16,6 +16,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,21 +26,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements RecipesAdapter.RecipesAdapterOnClickHandler {
 
-    private static final String BAKING_RECIPES_HTTP_URL = "https://d17h27t6h515a5.cloudfront.net/";
-    private RecipesAdapter mRecipesAdapter;
-    private RecyclerView mRecipesRecyclerView;
-    private ProgressBar mProgressBar;
-    private LinearLayout mErrorLayout;
+    static final String BAKING_RECIPES_HTTP_URL = "https://d17h27t6h515a5.cloudfront.net/";
+    RecipesAdapter mRecipesAdapter;
+    @BindView(R.id.rv_recipes) RecyclerView mRecipesRecyclerView;
+    @BindView(R.id.pb_loading_indicator) ProgressBar mProgressBar;
+    @BindView(R.id.error_layout) LinearLayout mErrorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mProgressBar = findViewById(R.id.pb_loading_indicator);
-        mErrorLayout = findViewById(R.id.error_layout);
-        mRecipesRecyclerView = findViewById(R.id.rv_recipes);
-        mRecipesRecyclerView.setHasFixedSize(true);
+        ButterKnife.bind(this);
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(BAKING_RECIPES_HTTP_URL)
@@ -53,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
                 List<Recipe> recipes = response.body();
                 mRecipesAdapter = new RecipesAdapter(MainActivity.this, recipes);
                 mRecipesRecyclerView.setAdapter(mRecipesAdapter);
+                mRecipesRecyclerView.setHasFixedSize(true);
                 showData();
             }
 

@@ -32,14 +32,14 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mRecipe == null) {
             ((RecipeDetailsActivity) requireActivity()).closeOnError();
+            getActivity().finish();
             return null;
         }
 
         final View rootView = inflater.inflate(R.layout.fragment_recipe_details_list, container, false);
         RecyclerView mRecipesRecyclerView = rootView.findViewById(R.id.rv_recipe_details);
+        mRecipesRecyclerView.setAdapter(new RecipeDetailsAdapter(this, mRecipe.getIngredients(), mRecipe.getSteps()));
         mRecipesRecyclerView.setHasFixedSize(true);
-        RecipeDetailsAdapter mRecipeDetailsAdapter = new RecipeDetailsAdapter(this, mRecipe.getIngredients(), mRecipe.getSteps());
-        mRecipesRecyclerView.setAdapter(mRecipeDetailsAdapter);
         return rootView;
     }
 

@@ -31,8 +31,8 @@ public class RecipeStepFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
 
         TextView recipeStepVideo = rootView.findViewById(R.id.recipe_step_video);
-        recipeStepVideo.setText(mStep.getVideoURL());
         TextView recipeStepDescription = rootView.findViewById(R.id.recipe_step_description);
+        recipeStepVideo.setText(mStep.getVideoURL());
         recipeStepDescription.setText(mStep.getDescription());
 
         return rootView;
