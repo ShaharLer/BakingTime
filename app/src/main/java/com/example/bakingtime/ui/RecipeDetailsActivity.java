@@ -2,17 +2,18 @@ package com.example.bakingtime.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.bakingtime.R;
 import com.example.bakingtime.database.Recipe;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
 
-//    private boolean mTwoPane;
+    private boolean mTwoPane;
+    private Recipe mRecipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,25 +26,25 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 closeOnError();
                 return;
             }
-
             if (!intent.hasExtra(Intent.EXTRA_TEXT)) {
                 closeOnError();
                 return;
             }
-
-            RecipeDetailsFragment detailsFragment = new RecipeDetailsFragment();
-            Recipe recipe = intent.getParcelableExtra(Intent.EXTRA_TEXT);
-            detailsFragment.setRecipe(recipe);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.recipe_details_fragment, detailsFragment)
-                    .commit();
+            mRecipe = intent.getParcelableExtra(Intent.EXTRA_TEXT);
         }
 
-//        if (findViewById(R.id.line_seperator) != null) {
-//            mTwoPane = true;
-//        } else {
-//            mTwoPane = false;
-//        }
+        RecipeDetailsFragment detailsFragment = new RecipeDetailsFragment();
+        detailsFragment.setRecipe(mRecipe);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.recipe_details_fragment, detailsFragment)
+                .commit();
+
+        if (findViewById(R.id.recipe_step_fragment_tablet) != null) {
+            mTwoPane = true;
+            createStepFragment(0, true);
+        } else {
+            mTwoPane = false;
+        }
     }
 
     void closeOnError() {
@@ -51,9 +52,25 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         Toast.makeText(this, "Recipe data not available", Toast.LENGTH_SHORT).show();
     }
 
-    public void show(int position) {
-        Log.d("TEST (DetailsActivity)", "Recipe detail number " + (position + 1) + " was clicked");
-        Intent intent = new Intent(this, RecipeStepActivity.class);
-        startActivity(intent);
+    public void onRecipeStepSelected(Recipe recipe, int position) {
+        if (mTwoPane) {
+            createStepFragment(position, false);
+        } else {
+            Intent intent = new Intent(this, RecipeStepActivity.class);
+            intent.putExtra(Intent.EXTRA_TEXT, recipe.getSteps().get(position));
+            startActivity(intent);
+        }
+    }
+
+    private void createStepFragment(int position, boolean addFragment) {
+        RecipeStepFragment stepFragment = new RecipeStepFragment();
+        stepFragment.setStep(mRecipe.getSteps().get(position));
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (addFragment) {
+            transaction.add(R.id.recipe_step_fragment_tablet, stepFragment);
+        } else {
+            transaction.replace(R.id.recipe_step_fragment_tablet, stepFragment);
+        }
+        transaction.commit();
     }
 }

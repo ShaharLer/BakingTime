@@ -1,6 +1,5 @@
 package com.example.bakingtime.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,10 +56,6 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
 
     @Override
     public void onStepClicked(int position) {
-        Log.d("TEST (Details fragment)", "Recipe detail number " + (position + 1) + " was clicked");
-        Intent intent = new Intent(getActivity(), RecipeStepActivity.class);
-        intent.putExtra(Intent.EXTRA_TEXT, mRecipe.getSteps().get(position));
-        startActivity(intent);
-//        ((RecipeDetailsActivity) requireActivity()).show(position);
+        ((RecipeDetailsActivity) requireActivity()).onRecipeStepSelected(mRecipe, position);
     }
 }

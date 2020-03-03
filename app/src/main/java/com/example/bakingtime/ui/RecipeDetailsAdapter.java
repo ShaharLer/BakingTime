@@ -1,6 +1,5 @@
 package com.example.bakingtime.ui;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
 
     public interface RecipeDetailsOnClickHandler {
         void onIngredientsClicked();
+
         void onStepClicked(int position);
     }
 
@@ -83,10 +83,8 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
         public void onClick(View v) {
             int position = getAdapterPosition();
             if (position == 0) {
-                Log.d("TEST (Details adapter)", "Recipe ingredients was clicked");
                 mClickHandler.onIngredientsClicked();
             } else {
-                Log.d("TEST (Details adapter)", "Recipe step number " + (getAdapterPosition()) + " was clicked");
                 mClickHandler.onStepClicked(getAdapterPosition() - 1);
             }
         }
