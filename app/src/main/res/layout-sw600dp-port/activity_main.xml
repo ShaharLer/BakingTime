@@ -6,7 +6,7 @@
     style="@style/frameLayoutRecipesListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@id/rv_recipes"
+        android:id="@+id/rv_recipes"
         style="@style/recipeListTabletPortraitStyle" />
 
     <include layout="@layout/error_layout" />
