@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.example.bakingtime.R;
 import com.example.bakingtime.database.Recipe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -31,19 +32,20 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 return;
             }
             mRecipe = intent.getParcelableExtra(Intent.EXTRA_TEXT);
-        }
 
-        RecipeDetailsFragment detailsFragment = new RecipeDetailsFragment();
-        detailsFragment.setRecipe(mRecipe);
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.recipe_details_fragment, detailsFragment)
-                .commit();
+            // TODO check if must create a new fragment
+            RecipeDetailsFragment detailsFragment = new RecipeDetailsFragment();
+            detailsFragment.setRecipe(mRecipe);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.recipe_details_fragment, detailsFragment)
+                    .commit();
 
-        if (findViewById(R.id.recipe_step_fragment_tablet) != null) {
-            mTwoPane = true;
-            createStepFragment(0, true);
-        } else {
-            mTwoPane = false;
+            if (findViewById(R.id.recipe_step_fragment_tablet) != null) {
+                mTwoPane = true;
+                createStepFragment(0, true);
+            } else {
+                mTwoPane = false;
+            }
         }
     }
 

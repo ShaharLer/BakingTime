@@ -17,22 +17,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdapter.RecipeDetailsOnClickHandler {
 
+    private static final String SAVED_INSTANCE_RECIPE_OBJECT = "recipe";
     private Recipe mRecipe;
 
     public RecipeDetailsFragment() {
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_RECIPE_OBJECT)) {
+            mRecipe = savedInstanceState.getParcelable(SAVED_INSTANCE_RECIPE_OBJECT);
+        }
+
         if (mRecipe == null) {
             ((RecipeDetailsActivity) requireActivity()).closeOnError();
-            getActivity().finish();
             return null;
         }
 
@@ -57,5 +56,10 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
     @Override
     public void onStepClicked(int position) {
         ((RecipeDetailsActivity) requireActivity()).onRecipeStepSelected(mRecipe, position);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(SAVED_INSTANCE_RECIPE_OBJECT, mRecipe);
     }
 }

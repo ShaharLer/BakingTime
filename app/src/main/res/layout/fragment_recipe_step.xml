@@ -7,28 +7,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/recipe_step_video"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:layout_marginBottom="15dp" />
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/recipe_step_description_card"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="15dp"
         android:layout_weight="5">
-
-        <TextView
-            android:id="@+id/recipe_step_video"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent"
-            android:gravity="center"
-            android:padding="30dp"
-            android:textSize="25sp" />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="15dp"
-        android:layout_weight="6">
 
         <TextView
             android:id="@+id/recipe_step_description"
