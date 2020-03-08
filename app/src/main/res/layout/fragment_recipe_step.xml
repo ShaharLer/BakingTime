@@ -12,32 +12,33 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
-        android:layout_marginBottom="15dp" />
+        android:layout_marginBottom="@dimen/player_view_margin" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/recipe_step_description_card"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="15dp"
-        android:layout_weight="5">
+        style="@style/cardViewRecipeStepPort">
 
         <TextView
             android:id="@+id/recipe_step_description"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent"
-            android:gravity="center"
-            android:padding="30dp"
-            android:textSize="25sp" />
+            style="@style/listItem" />
 
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/recipe_next_prev_step"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/recipe_prev_next_steps_bttons"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="15dp"
-        android:text="Next/Prev step" />
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/recipe_buttons_layout_margin">
+
+        <Button
+            android:id="@+id/recipe_prev_step"
+            style="@style/recipePrevStepButtton" />
+
+        <Button
+            android:id="@+id/recipe_next_step"
+            style="@style/recipeNextStepButtton" />
+
+    </RelativeLayout>
 
 </LinearLayout>

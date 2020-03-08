@@ -1,6 +1,5 @@
 package com.example.bakingtime.ui;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +63,6 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeVi
 
         @Override
         public void onClick(View v) {
-            Log.d("TEST (Recipes adapter)", "Recipe number " + (getAdapterPosition() + 1) + " was clicked");
             mClickHandler.onRecipeClicked(getAdapterPosition());
         }
     }

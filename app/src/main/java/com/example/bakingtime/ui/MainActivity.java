@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
 
                 @Override
                 public void onFailure(@NonNull Call<List<Recipe>> call, @NonNull Throwable t) {
-                    Log.d("TEST (Fragment)", "onFailure");
                     showErrorMessage();
                 }
             });

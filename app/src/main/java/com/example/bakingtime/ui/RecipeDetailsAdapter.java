@@ -1,5 +1,6 @@
 package com.example.bakingtime.ui;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
     private final RecipeDetailsOnClickHandler mClickHandler;
     private List<Ingredient> mIngredients;
     private List<Step> mSteps;
+    private int mCurrentChosenStepPosition = 1; // first step position
+    private boolean mTwoPane;
 
     public interface RecipeDetailsOnClickHandler {
         void onIngredientsClicked();
@@ -26,10 +29,11 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
         void onStepClicked(int position);
     }
 
-    RecipeDetailsAdapter(RecipeDetailsOnClickHandler clickHandler, List<Ingredient> ingredients, List<Step> recipesSteps) {
+    RecipeDetailsAdapter(RecipeDetailsOnClickHandler clickHandler, List<Ingredient> ingredients, List<Step> recipesSteps, boolean twoPane) {
         mClickHandler = clickHandler;
         mIngredients = ingredients;
         mSteps = recipesSteps;
+        mTwoPane = twoPane;
     }
 
     @NonNull
@@ -44,22 +48,26 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
     @Override
     public void onBindViewHolder(@NonNull RecipeDetailsViewHolder holder, int position) {
         if (position == 0) {
-//            StringBuilder ingredients = new StringBuilder();
-//            for (int i = 0; i < mIngredients.size(); i++) {
-//                Ingredient ingredient = mIngredients.get(i);
-//                ingredients.append(String.valueOf(ingredient.getQuantity())).append(" ")
-//                        .append(ingredient.getMeasure()).append(" ")
-//                        .append(ingredient.getIngredient());
-//
-//                if (i < mIngredients.size() - 1) {
-//                    ingredients.append(", ");
-//                }
-//            }
-            Ingredient ingredient = mIngredients.get(0);
-            String ingredients = ingredient.getQuantity() + " " + ingredient.getMeasure() + " " + ingredient.getIngredient();
-            holder.recipeDetail.setText(ingredients);
+            bindIngredientsView(holder.recipeDetail);
         } else {
-            holder.recipeDetail.setText(mSteps.get(position - 1).getShortDescription());
+            bindStepsViews(holder.recipeDetail, position);
+        }
+    }
+
+    private void bindIngredientsView(TextView view) {
+        Ingredient ingredient = mIngredients.get(0);
+        String ingredients = ingredient.getQuantity() + " " + ingredient.getMeasure() + " " + ingredient.getIngredient();
+        view.setText(ingredients);
+    }
+
+    private void bindStepsViews(TextView view, int position) {
+        view.setText(mSteps.get(position - 1).getShortDescription());
+        if (mTwoPane) {
+            if (position == mCurrentChosenStepPosition) {
+                view.setBackgroundColor(Color.GREEN);
+            } else {
+                view.setBackgroundColor(view.getContext().getResources().getColor(R.color.itemBackgroundColor));
+            }
         }
     }
 
@@ -67,6 +75,15 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
     public int getItemCount() {
         if (mIngredients == null || mSteps == null) return 0;
         return (mSteps.size() + 1); // 1 for the ingredients list
+    }
+
+    int getCurrentChosenStepPosition() {
+        return mCurrentChosenStepPosition;
+    }
+
+    void setCurrentChosenStepPosition(int position) {
+        mCurrentChosenStepPosition = position;
+        notifyDataSetChanged();
     }
 
     public class RecipeDetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -85,9 +102,8 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
             if (position == 0) {
                 mClickHandler.onIngredientsClicked();
             } else {
-                mClickHandler.onStepClicked(getAdapterPosition() - 1);
+                mClickHandler.onStepClicked(getAdapterPosition());
             }
         }
     }
-
 }

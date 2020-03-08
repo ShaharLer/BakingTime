@@ -4,22 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     style="@style/recipeDetailsRootLayout"
     tools:context=".ui.RecipeDetailsActivity">
 
     <FrameLayout
         android:id="@id/recipe_details_fragment"
-        style="@style/recipeDetailsTabletLandFragment" />
+        style="@style/recipeDetailsTabletPortFragment" />
 
     <View
         android:id="@+id/line_seperator"
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
         android:background="@android:color/darker_gray" />
 
     <FrameLayout
         android:id="@+id/recipe_step_fragment_tablet"
-        style="@style/recipeStepTabletLandFragment"/>
+        style="@style/recipeStepTabletPrtFragment" />
 
 </LinearLayout>
