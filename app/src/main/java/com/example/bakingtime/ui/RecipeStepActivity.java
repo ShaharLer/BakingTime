@@ -36,7 +36,6 @@ public class RecipeStepActivity extends AppCompatActivity {
             return;
         }
 
-
         Intent intent = getIntent();
         if (intent == null) {
             closeOnError();
@@ -56,24 +55,7 @@ public class RecipeStepActivity extends AppCompatActivity {
             return;
         }
 
-        /*
-        Step step = intent.getParcelableExtra(Intent.EXTRA_TEXT);
-        if (step == null) {
-            closeOnError();
-            return;
-        }
-         */
-
-
         createStepFragment(true);
-//        createStepFragment(mSteps.get(mStepNumber), true, false, true);
-        /*
-        RecipeStepFragment stepFragment = new RecipeStepFragment(mSteps.get(mStepNumber), false, true);
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.recipe_step_fragment, stepFragment)
-                .commit();
-
-         */
     }
 
     void closeOnError() {

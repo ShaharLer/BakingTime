@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- TODO add copyright -->
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/cardViewDetailsListItemTabletPort">
+
+    <TextView
+        android:id="@+id/recipe_detail"
+        style="@style/listItem" />
+
+</androidx.cardview.widget.CardView>

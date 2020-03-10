@@ -38,7 +38,6 @@ public class RecipeStepFragment extends Fragment {
     private Step mStep;
     private boolean mHasPrev;
     private boolean mHasNext;
-    private View rootView;
     private String mVideoUrl;
     //    private Unbinder unbinder;
     private ExoPlayer mExoPlayer;
@@ -46,9 +45,6 @@ public class RecipeStepFragment extends Fragment {
     private PlayerView mPlayerView;
     //    @BindView(R.id.recipe_step_description)
     private TextView mRecipeStepDescription;
-    //    @BindView(R.id.recipe_next_prev_step)
-    private Button mPrevStepButton;
-    private Button mNextStepButton;
 
     public RecipeStepFragment() {
     }
@@ -62,11 +58,7 @@ public class RecipeStepFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (savedInstanceState != null
-                && savedInstanceState.containsKey(SAVED_INSTANCE_STEP_OBJECT)
-                && savedInstanceState.containsKey(SAVED_INSTANCE_HAS_PREV)
-                && savedInstanceState.containsKey(SAVED_INSTANCE_HAS_NEXT)) {
-
+        if (savedInstanceState != null) {
             mStep = savedInstanceState.getParcelable(SAVED_INSTANCE_STEP_OBJECT);
             mHasPrev = savedInstanceState.getBoolean(SAVED_INSTANCE_HAS_PREV);
             mHasNext = savedInstanceState.getBoolean(SAVED_INSTANCE_HAS_NEXT);
@@ -81,14 +73,16 @@ public class RecipeStepFragment extends Fragment {
         int smallestScreenWidthDp = getResources().getConfiguration().smallestScreenWidthDp;
         int orientation = getResources().getConfiguration().orientation;
 
+        View rootView;
         if (smallestScreenWidthDp >= 600) { // TODO move 600 to dimens
             rootView = inflater.inflate(R.layout.fragment_recipe_step_tablet, container, false);
             mRecipeStepDescription = rootView.findViewById(R.id.recipe_step_description);
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
             mRecipeStepDescription = rootView.findViewById(R.id.recipe_step_description);
-            mPrevStepButton = rootView.findViewById(R.id.recipe_prev_step);
-            mNextStepButton = rootView.findViewById(R.id.recipe_next_step);
+            //    @BindView(R.id.recipe_next_prev_step)
+            Button mPrevStepButton = rootView.findViewById(R.id.recipe_prev_step);
+            Button mNextStepButton = rootView.findViewById(R.id.recipe_next_step);
             setClickListener(mPrevStepButton, mHasPrev, false);
             setClickListener(mNextStepButton, mHasNext, true);
         } else {
@@ -132,7 +126,8 @@ public class RecipeStepFragment extends Fragment {
     }
 
     private void initializePlayer() {
-        mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), new DefaultTrackSelector(), new DefaultLoadControl());
+        mExoPlayer = ExoPlayerFactory.newSimpleInstance(Objects.requireNonNull(getContext()),
+                new DefaultTrackSelector(), new DefaultLoadControl());
         String userAgent = Util.getUserAgent(getContext(), getContext().getString(R.string.app_name));
         MediaSource mediaSource = new ExtractorMediaSource
                 .Factory(new DefaultDataSourceFactory(getContext(), userAgent))
@@ -165,10 +160,6 @@ public class RecipeStepFragment extends Fragment {
         mExoPlayer.stop();
         mExoPlayer.release();
         mExoPlayer = null;
-    }
-
-    void setStep(Step step) {
-        this.mStep = step;
     }
 
     @Override

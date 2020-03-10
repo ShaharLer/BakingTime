@@ -10,7 +10,9 @@
 
     <FrameLayout
         android:id="@id/recipe_details_fragment"
-        style="@style/recipeDetailsTabletPortFragment" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <View
         android:id="@+id/line_seperator"
@@ -20,6 +22,8 @@
 
     <FrameLayout
         android:id="@+id/recipe_step_fragment_tablet"
-        style="@style/recipeStepTabletPrtFragment" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2" />
 
 </LinearLayout>

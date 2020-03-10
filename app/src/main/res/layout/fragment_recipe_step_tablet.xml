@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@id/recipe_step_description"
-            style="@style/listItem" />
+            style="@style/stepDescriptionItemTablet" />
 
     </androidx.cardview.widget.CardView>
 

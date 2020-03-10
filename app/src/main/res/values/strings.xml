@@ -4,4 +4,7 @@
     <string name="error_message">An error has occurred.\n\nPlease try again by clicking the REFRESH button below</string>
     <string name="prev_step_text">Prev step</string>
     <string name="next_step_text">Next step</string>
+    <string name="review_dialog_back_button">back</string>
+    <string name="recipe_ingredients_details_list">Recipe Ingredients</string>
+    <string name="ingredients_list_headline">Ingredients list</string>
 </resources>

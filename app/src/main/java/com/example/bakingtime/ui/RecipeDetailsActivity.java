@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.bakingtime.R;
+import com.example.bakingtime.database.Ingredient;
 import com.example.bakingtime.database.Recipe;
 import com.example.bakingtime.database.Step;
 
+import java.util.List;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
@@ -49,26 +53,22 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         Toast.makeText(this, "Recipe data not available", Toast.LENGTH_SHORT).show();
     }
 
-    /*
-    public void onRecipeStepSelected(Step chosenStep, int chosenPosition, int currentPosition, RecipeDetailsAdapter adapter) {
-        if (!mTwoPane) {
-            Intent intent = new Intent(this, RecipeStepActivity.class);
-            intent.putExtra(Intent.EXTRA_TEXT, chosenStep);
-            startActivity(intent);
-        } else if (chosenPosition != currentPosition) {
-            createStepFragment(chosenStep, false);
-            adapter.setCurrentChosenStepPosition(chosenPosition);
-        }
-    }
-     */
-
-    public void createStepFragment(Step step, boolean addFragment) {
+    public void createStepFragment(Step step) {
         RecipeStepFragment stepFragment = new RecipeStepFragment(step, false, false);
+        makeFragmentTransaction(stepFragment, false);
+    }
+
+    public void createIngredientsFragment(List<Ingredient> ingredients, boolean addFragment) {
+        RecipeIngredientsFragment ingredientsFragment = new RecipeIngredientsFragment(ingredients);
+        makeFragmentTransaction(ingredientsFragment, addFragment);
+    }
+
+    private void makeFragmentTransaction(Fragment fragment, boolean addFragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (addFragment) {
-            transaction.add(R.id.recipe_step_fragment_tablet, stepFragment);
+            transaction.add(R.id.recipe_step_fragment_tablet, fragment);
         } else {
-            transaction.replace(R.id.recipe_step_fragment_tablet, stepFragment);
+            transaction.replace(R.id.recipe_step_fragment_tablet, fragment);
         }
         transaction.commit();
     }

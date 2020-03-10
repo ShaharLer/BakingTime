@@ -20,20 +20,21 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
     private final RecipeDetailsOnClickHandler mClickHandler;
     private List<Ingredient> mIngredients;
     private List<Step> mSteps;
-    private int mCurrentChosenStepPosition = 1; // first step position
     private boolean mTwoPane;
+    private int mCurrentChosenPosition;
 
     public interface RecipeDetailsOnClickHandler {
         void onIngredientsClicked();
-
         void onStepClicked(int position);
     }
 
-    RecipeDetailsAdapter(RecipeDetailsOnClickHandler clickHandler, List<Ingredient> ingredients, List<Step> recipesSteps, boolean twoPane) {
+    RecipeDetailsAdapter(RecipeDetailsOnClickHandler clickHandler, List<Ingredient> ingredients,
+                         List<Step> recipesSteps, boolean twoPane, int currentChosenPosition) {
         mClickHandler = clickHandler;
         mIngredients = ingredients;
         mSteps = recipesSteps;
         mTwoPane = twoPane;
+        mCurrentChosenPosition = currentChosenPosition;
     }
 
     @NonNull
@@ -47,26 +48,19 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
 
     @Override
     public void onBindViewHolder(@NonNull RecipeDetailsViewHolder holder, int position) {
+        TextView view = holder.recipeDetail;
         if (position == 0) {
-            bindIngredientsView(holder.recipeDetail);
+            view.setText(view.getContext().getResources().getString(R.string.ingredients_list_headline));
         } else {
-            bindStepsViews(holder.recipeDetail, position);
+            view.setText(mSteps.get(position - 1).getShortDescription());
         }
-    }
 
-    private void bindIngredientsView(TextView view) {
-        Ingredient ingredient = mIngredients.get(0);
-        String ingredients = ingredient.getQuantity() + " " + ingredient.getMeasure() + " " + ingredient.getIngredient();
-        view.setText(ingredients);
-    }
-
-    private void bindStepsViews(TextView view, int position) {
-        view.setText(mSteps.get(position - 1).getShortDescription());
         if (mTwoPane) {
-            if (position == mCurrentChosenStepPosition) {
-                view.setBackgroundColor(Color.GREEN);
+            if (position == mCurrentChosenPosition) {
+                view.setBackgroundColor(Color.BLUE);
             } else {
-                view.setBackgroundColor(view.getContext().getResources().getColor(R.color.itemBackgroundColor));
+                int defaultBackgroundColor = view.getContext().getResources().getColor(R.color.itemBackgroundColor);
+                view.setBackgroundColor(defaultBackgroundColor);
             }
         }
     }
@@ -78,11 +72,11 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
     }
 
     int getCurrentChosenStepPosition() {
-        return mCurrentChosenStepPosition;
+        return mCurrentChosenPosition;
     }
 
-    void setCurrentChosenStepPosition(int position) {
-        mCurrentChosenStepPosition = position;
+    void setCurrentChosenPosition(int position) {
+        mCurrentChosenPosition = position;
         notifyDataSetChanged();
     }
 
@@ -102,7 +96,7 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
             if (position == 0) {
                 mClickHandler.onIngredientsClicked();
             } else {
-                mClickHandler.onStepClicked(getAdapterPosition());
+                mClickHandler.onStepClicked(position);
             }
         }
     }

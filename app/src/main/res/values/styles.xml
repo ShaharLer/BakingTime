@@ -26,21 +26,16 @@
         <item name="spanCount">@integer/portrait_tablet_columns_number</item>
     </style>
 
+    <style name="recipeDetailsListTabletPortraitStyle" parent="recyclerViewListStyle">
+        <item name="spanCount">@integer/portrait_tablet_details_columns_number</item>
+    </style>
+
     <style name="recipeListTabletLandscapeStyle" parent="recyclerViewListStyle">
         <item name="spanCount">@integer/landscape_tablet_recipes_columns_number</item>
     </style>
 
     <style name="recipeDetailsListTabletLandscapeStyle" parent="recyclerViewListStyle">
         <item name="spanCount">@integer/landscape_tablet_details_columns_number</item>
-    </style>
-
-    <style name="listItem">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:gravity">center</item>
-        <item name="android:padding">@dimen/item_padding</item>
-        <item name="android:textSize">@dimen/item_text_size</item>
-        <item name="android:background">@color/itemBackgroundColor</item>
     </style>
 
     <style name="recipeStepButton">
@@ -58,13 +53,40 @@
         <item name="android:text">@string/next_step_text</item>
     </style>
 
+    <style name="listItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">40dp</item>
+        <item name="android:paddingBottom">40dp</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:textSize">@dimen/item_text_size</item>
+        <item name="android:background">@color/itemBackgroundColor</item>
+    </style>
+
+    <style name="stepDescriptionItemTablet" parent="listItem">
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
     <style name="cardView">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_margin">@dimen/card_view_margin</item>
+        <item name="android:layout_marginStart">60dp</item>
+        <item name="android:layout_marginEnd">60dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="cardCornerRadius">10dp</item>
     </style>
 
     <style name="cardViewListItem" parent="cardView">
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="cardViewDetailsListItemTabletPort" parent="cardView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:layout_marginEnd">30dp</item>
     </style>
 
     <style name="cardViewRecipeStepPort" parent="cardView">
@@ -75,6 +97,8 @@
     <style name="cardViewRecipeStepTablet" parent="cardView">
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
     </style>
 
     <style name="frameLayoutRecipesListFragment">
@@ -120,27 +144,6 @@
 
     <style name="recipeDetailsRootLayout">
         <item name="android:background">@color/colorPrimary</item>
-    </style>
-
-    <style name="recipeTabletFragment">
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">0dp</item>
-    </style>
-
-    <style name="recipeDetailsTabletPortFragment" parent="recipeTabletFragment">
-        <item name="android:layout_weight">2</item>
-    </style>
-
-    <style name="recipeStepTabletPrtFragment" parent="recipeTabletFragment">
-        <item name="android:layout_weight">1</item>
-    </style>
-
-    <style name="recipeDetailsTabletLandFragment" parent="recipeTabletFragment">
-        <item name="android:layout_weight">1</item>
-    </style>
-
-    <style name="recipeStepTabletLandFragment" parent="recipeTabletFragment">
-        <item name="android:layout_weight">2</item>
     </style>
 
 </resources>
