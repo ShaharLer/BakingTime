@@ -207,7 +207,7 @@
     <style name="buttonStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:padding">10dp</item>
-        <item name="android:background">@drawable/button</item>
+        <item name="android:background">@drawable/button_ripple_effect</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
@@ -217,6 +217,7 @@
 
     <style name="recipeStepButton" parent="buttonStyle">
         <item name="android:layout_height">match_parent</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="recipePrevStepButtton" parent="recipeStepButton">
