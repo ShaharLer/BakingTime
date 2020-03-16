@@ -7,4 +7,7 @@
     <string name="review_dialog_back_button">back</string>
     <string name="recipe_ingredients_details_list">Recipe Ingredients</string>
     <string name="ingredients_list_headline">Ingredients list</string>
+    <string name="recipe_step_data_error">Recipe step data not available</string>
+    <string name="recipe_detail_data_error">Recipe detail data not available</string>
+    <string name="video_not_available_description">An image showing video is not available for this step</string>
 </resources>

@@ -2,7 +2,6 @@ package com.example.bakingtime.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -16,6 +15,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
         setContentView(R.layout.activity_main);
 //        ButterKnife.bind(this);
 
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         mRecipesRecyclerView = findViewById(R.id.rv_recipes);
         mProgressBar = findViewById(R.id.pb_loading_indicator);
         mErrorLayout = findViewById(R.id.error_layout);
@@ -50,26 +52,30 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
             mRecipes = savedInstanceState.getParcelableArrayList(SAVED_INSTANCE_RECIPES_LIST);
             showData();
         } else {
-            Retrofit.Builder builder = new Retrofit.Builder()
-                    .baseUrl(BAKING_RECIPES_HTTP_URL)
-                    .addConverterFactory(GsonConverterFactory.create());
-            Retrofit retrofit = builder.build();
-            RecipesClient client = retrofit.create(RecipesClient.class);
-            Call<List<Recipe>> call = client.bakingRecipes();
-            hideData();
-            call.enqueue(new Callback<List<Recipe>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<Recipe>> call, @NonNull Response<List<Recipe>> response) {
-                    mRecipes = response.body();
-                    showData();
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<List<Recipe>> call, @NonNull Throwable t) {
-                    showErrorMessage();
-                }
-            });
+            loadRecipesData();
         }
+    }
+
+    private void loadRecipesData() {
+        hideData();
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl(BAKING_RECIPES_HTTP_URL)
+                .addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+        RecipesClient client = retrofit.create(RecipesClient.class);
+        Call<List<Recipe>> call = client.bakingRecipes();
+        call.enqueue(new Callback<List<Recipe>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Recipe>> call, @NonNull Response<List<Recipe>> response) {
+                mRecipes = response.body();
+                showData();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Recipe>> call, @NonNull Throwable t) {
+                showErrorMessage();
+            }
+        });
     }
 
     /**
@@ -101,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
         mRecipesRecyclerView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
         mErrorLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void refreshData(View v) {
+        loadRecipesData();
     }
 
     /**

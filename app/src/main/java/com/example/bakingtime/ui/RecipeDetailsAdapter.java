@@ -1,6 +1,5 @@
 package com.example.bakingtime.ui;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,10 +56,9 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
 
         if (mTwoPane) {
             if (position == mCurrentChosenPosition) {
-                view.setBackgroundColor(Color.BLUE);
+                view.setBackground(view.getContext().getDrawable(R.drawable.recipe_detail_chosen_background));
             } else {
-                int defaultBackgroundColor = view.getContext().getResources().getColor(R.color.itemBackgroundColor);
-                view.setBackgroundColor(defaultBackgroundColor);
+                view.setBackground(view.getContext().getDrawable(R.drawable.text_view_background));
             }
         }
     }

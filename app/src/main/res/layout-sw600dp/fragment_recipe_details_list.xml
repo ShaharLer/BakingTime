@@ -13,16 +13,6 @@
     limitations under the License.
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/activityLayoutStyle"
-    tools:context=".ui.RecipeStepActivity">
-
-    <include layout="@layout/tool_bar" />
-
-    <FrameLayout
-        android:id="@+id/recipe_step_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</LinearLayout>
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/rv_recipe_details"
+    style="@style/recipeDetailsListTabletStyle" />

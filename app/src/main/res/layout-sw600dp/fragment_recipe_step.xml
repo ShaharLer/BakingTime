@@ -15,23 +15,37 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/activityLayoutStyle"
-    tools:context=".ui.MainActivity">
-
-    <include layout="@layout/tool_bar" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="0.6">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_recipes"
-            style="@style/listPortraitStyle" />
+        <include layout="@layout/step_video_exo_player_view" />
 
-        <include layout="@layout/error_layout" />
-
-        <include layout="@layout/progress_bar" />
+        <include layout="@layout/no_video_available_view" />
 
     </FrameLayout>
+
+    <FrameLayout
+        android:id="@id/recipe_step_description_frame_layout"
+        style="@style/stepDescriptionFrameLayoutTablet">
+
+        <ScrollView
+            style="@style/stepDescriptionScrollView"
+            tools:ignore="UselessParent">
+
+                <TextView
+                    android:id="@id/recipe_step_description_tv"
+                    style="@style/stepDescriptionTextViewTablet" />
+
+        </ScrollView>
+
+    </FrameLayout>
+
+    <include layout="@layout/step_buttons_layout" />
 
 </LinearLayout>

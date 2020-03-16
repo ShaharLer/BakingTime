@@ -1,7 +1,6 @@
 package com.example.bakingtime.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +43,7 @@ public class RecipeIngredientsFragment extends Fragment {
             return null;
         }
 
-        View rootView = inflater.inflate(R.layout.fragment_recipe_ingredients_tablet, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_recipe_ingredients, container, false);
         TextView mIngredientsTv = rootView.findViewById(R.id.recipe_ingredients_list_tv);
         mIngredientsTv.setText(Utils.getIngredientsList(mIngredients));
 

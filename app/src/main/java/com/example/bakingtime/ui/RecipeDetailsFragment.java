@@ -25,17 +25,17 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
     private static final String SAVED_INSTANCE_RECIPE_OBJECT = "recipe";
     private static final String SAVED_INSTANCE_TWO_PANE = "two pane";
     private static final String SAVED_INSTANCE_CHOSEN_POSITION = "chosne position";
+
     private RecipeDetailsAdapter mAdapter;
     private Recipe mRecipe;
     private boolean mTwoPane;
-    private int mCurrentChosenPosition = 0;
+    private int mCurrentChosenPosition;
 
     public RecipeDetailsFragment() {
     }
 
-    RecipeDetailsFragment(Recipe recipe, boolean twoPane) {
+    RecipeDetailsFragment(Recipe recipe) {
         mRecipe = recipe;
-        mTwoPane = twoPane;
     }
 
     @Nullable
@@ -45,7 +45,9 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
             mRecipe = savedInstanceState.getParcelable(SAVED_INSTANCE_RECIPE_OBJECT);
             mTwoPane = savedInstanceState.getBoolean(SAVED_INSTANCE_TWO_PANE);
             mCurrentChosenPosition = savedInstanceState.getInt(SAVED_INSTANCE_CHOSEN_POSITION);
-        } else if (mTwoPane) {
+        } else if (Objects.requireNonNull(getActivity()).findViewById(R.id.recipe_step_fragment_tablet) != null) {
+            mTwoPane = true;
+            // TODO check if can create the step fragment from here
             ((RecipeDetailsActivity) requireActivity()).createIngredientsFragment(mRecipe.getIngredients(), true);
         }
 
@@ -66,7 +68,7 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
     @Override
     public void onIngredientsClicked() {
         if (!mTwoPane) {
-            new AlertDialog.Builder(Objects.requireNonNull(getContext()))
+            new AlertDialog.Builder(Objects.requireNonNull(getContext()), R.style.alertDialogTheme)
                     .setMessage(Utils.getIngredientsList(mRecipe.getIngredients()))
                     .setNegativeButton(R.string.review_dialog_back_button, null)
                     .show();
@@ -80,15 +82,11 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
     @Override
     public void onStepClicked(int chosenStepPosition) {
         Step chosenStep = mRecipe.getSteps().get(chosenStepPosition - 1);
-
-        // TODO check if can bring this code back
-//        int currentChosenStepPosition = mAdapter.getCurrentChosenStepPosition();
-//        ((RecipeDetailsActivity) requireActivity()).onRecipeStepSelected(chosenStep, chosenStepPosition, currentChosenStepPosition, mAdapter);
-
         if (!mTwoPane) {
             Intent intent = new Intent(getActivity(), RecipeStepActivity.class);
             intent.putParcelableArrayListExtra(Intent.EXTRA_TEXT, new ArrayList<>(mRecipe.getSteps()));
             intent.putExtra(Intent.EXTRA_REFERRER, chosenStepPosition - 1);
+            intent.putExtra(Intent.EXTRA_INTENT, mRecipe.getName());
             startActivity(intent);
         } else if (mAdapter.getCurrentChosenStepPosition() != chosenStepPosition) {
             ((RecipeDetailsActivity) requireActivity()).createStepFragment(chosenStep);

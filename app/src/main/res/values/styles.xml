@@ -7,40 +7,216 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    
+
+
+    <style name="alertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/itemBackgroundColor</item>
+    </style>
+
+
+    <style name="activityLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@drawable/candies</item>
+    </style>
+
+
     <style name="recyclerViewListStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="layoutManager">androidx.recyclerview.widget.GridLayoutManager</item>
     </style>
 
-    <style name="recipeListPortraitStyle" parent="recyclerViewListStyle">
+    <style name="listPortraitStyle" parent="recyclerViewListStyle">
         <item name="spanCount">@integer/portrait_columns_number</item>
     </style>
 
-    <style name="recipeListLandscapeStyle" parent="recyclerViewListStyle">
+    <style name="listLandscapeStyle" parent="recyclerViewListStyle">
         <item name="spanCount">@integer/landscape_columns_number</item>
     </style>
 
-    <style name="recipeListTabletPortraitStyle" parent="recyclerViewListStyle">
-        <item name="spanCount">@integer/portrait_tablet_columns_number</item>
+    <style name="recipeListTabletStyle" parent="recyclerViewListStyle">
+        <item name="spanCount">@integer/tablet_recipes_columns_number</item>
     </style>
 
-    <style name="recipeDetailsListTabletPortraitStyle" parent="recyclerViewListStyle">
-        <item name="spanCount">@integer/portrait_tablet_details_columns_number</item>
+    <style name="recipeDetailsListTabletStyle" parent="recyclerViewListStyle">
+        <item name="spanCount">@integer/tablet_details_columns_number</item>
     </style>
 
-    <style name="recipeListTabletLandscapeStyle" parent="recyclerViewListStyle">
-        <item name="spanCount">@integer/landscape_tablet_recipes_columns_number</item>
+
+    <style name="textViewStyle">
+        <item name="android:background">@drawable/text_view_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="recipeDetailsListTabletLandscapeStyle" parent="recyclerViewListStyle">
-        <item name="spanCount">@integer/landscape_tablet_details_columns_number</item>
+
+    <style name="listTextView" parent="textViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
     </style>
 
-    <style name="recipeStepButton">
+    <style name="listTextViewPhone" parent="listTextView">
+        <item name="android:paddingTop">35dp</item>
+        <item name="android:paddingBottom">35dp</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="listTextViewPhonePort" parent="listTextViewPhone">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_marginStart">60dp</item>
+        <item name="android:layout_marginEnd">60dp</item>
+    </style>
+
+    <style name="listTextViewPhoneLand" parent="listTextViewPhone">
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:layout_marginStart">50dp</item>
+        <item name="android:layout_marginEnd">50dp</item>
+    </style>
+
+
+    <style name="recipesListTextViewTablet" parent="listTextView">
+        <item name="android:paddingTop">60dp</item>
+        <item name="android:paddingBottom">60dp</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="recipesListTextViewTabletPort" parent="recipesListTextViewTablet">
+        <item name="android:layout_marginTop">35dp</item>
+        <item name="android:layout_marginBottom">35dp</item>
+        <item name="android:layout_marginStart">40dp</item>
+        <item name="android:layout_marginEnd">40dp</item>
+    </style>
+
+    <style name="recipesListTextViewTabletLand" parent="recipesListTextViewTablet">
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginBottom">30dp</item>
+        <item name="android:layout_marginStart">70dp</item>
+        <item name="android:layout_marginEnd">70dp</item>
+    </style>
+
+
+    <style name="recipeDetailsListTextViewTablet" parent="listTextView">
+        <item name="android:paddingTop">45dp</item>
+        <item name="android:paddingBottom">45dp</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="recipeDetailsListTextViewTabletPort" parent="recipeDetailsListTextViewTablet">
+        <item name="android:layout_marginTop">18dp</item>
+        <item name="android:layout_marginBottom">18dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+    </style>
+
+    <style name="recipeDetailsListTextViewTabletLand" parent="recipeDetailsListTextViewTablet">
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:layout_marginEnd">30dp</item>
+    </style>
+
+
+    <style name="ingredientsTextViewTablet" parent="listTextView">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:paddingStart">30dp</item>
+        <item name="android:paddingEnd">30dp</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+
+    <style name="errotTextView" parent="textViewStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:text">@string/error_message</item>
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+    </style>
+
+    <style name="errotTextViewPhone" parent="errotTextView">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="errotTextViewTablet" parent="errotTextView">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+
+    <style name="stepDescriptionFrameLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+    </style>
+
+    <style name="stepDescriptionFrameLayoutPhone" parent="stepDescriptionFrameLayout">
+        <item name="android:layout_weight">0.5</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="stepDescriptionFrameLayoutTablet" parent="stepDescriptionFrameLayout">
+        <item name="android:layout_weight">0.4</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+
+    <style name="stepDescriptionScrollView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+
+    <style name="stepDescriptionTextView" parent="textViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="stepDescriptionTextViewPort" parent="stepDescriptionTextView">
+        <item name="android:padding">20dp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="stepDescriptionTextViewTablet" parent="stepDescriptionTextView">
+        <item name="android:padding">30dp</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+
+    <style name="errorLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:layout_marginEnd">30dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+
+    <style name="buttonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/itemBackgroundColor</item>
+    </style>
+
+
+    <style name="recipeStepButton" parent="buttonStyle">
+        <item name="android:layout_height">match_parent</item>
     </style>
 
     <style name="recipePrevStepButtton" parent="recipeStepButton">
@@ -53,97 +229,21 @@
         <item name="android:text">@string/next_step_text</item>
     </style>
 
-    <style name="listItem">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:gravity">center</item>
-        <item name="android:paddingTop">40dp</item>
-        <item name="android:paddingBottom">40dp</item>
-        <item name="android:paddingStart">5dp</item>
-        <item name="android:paddingEnd">5dp</item>
-        <item name="android:textSize">@dimen/item_text_size</item>
-        <item name="android:background">@color/itemBackgroundColor</item>
-    </style>
 
-    <style name="stepDescriptionItemTablet" parent="listItem">
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
-    </style>
-
-    <style name="cardView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginStart">60dp</item>
-        <item name="android:layout_marginEnd">60dp</item>
-        <item name="android:layout_marginTop">20dp</item>
-        <item name="android:layout_marginBottom">20dp</item>
-        <item name="cardCornerRadius">10dp</item>
-    </style>
-
-    <style name="cardViewListItem" parent="cardView">
+    <style name="errorButton" parent="buttonStyle">
         <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="cardViewDetailsListItemTabletPort" parent="cardView">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">30dp</item>
-        <item name="android:layout_marginEnd">30dp</item>
-    </style>
-
-    <style name="cardViewRecipeStepPort" parent="cardView">
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_weight">5</item>
-    </style>
-
-    <style name="cardViewRecipeStepTablet" parent="cardView">
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_marginStart">10dp</item>
-        <item name="android:layout_marginEnd">10dp</item>
-    </style>
-
-    <style name="frameLayoutRecipesListFragment">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/colorPrimary</item>
-    </style>
-
-    <style name="progressBar">
-        <item name="android:layout_width">@dimen/progress_bar_dimension</item>
-        <item name="android:layout_height">@dimen/progress_bar_dimension</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:visibility">gone</item>
-    </style>
-
-    <style name="errorLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:gravity">center</item>
-        <item name="android:visibility">gone</item>
-    </style>
-
-    <style name="errorTextView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="paddingStart">@dimen/error_message_horizontal_padding</item>
-        <item name="paddingEnd">@dimen/error_message_horizontal_padding</item>
-        <item name="android:text">@string/error_message</item>
-        <item name="android:textSize">@dimen/error_message_text_size</item>
-        <item name="android:textColor">@android:color/black</item>
-    </style>
-
-    <style name="refreshDataButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/refresh_button_margin_top</item>
         <item name="android:text">@string/refresh_button_text</item>
-        <item name="buttonStyle">@style/TextAppearance.AppCompat.Button</item>
     </style>
 
-    <style name="recipeDetailsRootLayout">
-        <item name="android:background">@color/colorPrimary</item>
+    <style name="errorButtonPhone" parent="errorButton">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:padding">20dp</item>
+    </style>
+
+    <style name="errorButtonTablet" parent="errorButton">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
 </resources>

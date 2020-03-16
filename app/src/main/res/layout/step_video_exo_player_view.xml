@@ -13,16 +13,10 @@
     limitations under the License.
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/activityLayoutStyle"
-    tools:context=".ui.RecipeStepActivity">
-
-    <include layout="@layout/tool_bar" />
-
-    <FrameLayout
-        android:id="@+id/recipe_step_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</LinearLayout>
+<com.google.android.exoplayer2.ui.SimpleExoPlayerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recipe_step_video"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:controller_layout_id="@layout/custom_exoplayer_controls"
+    app:resize_mode="fill" />

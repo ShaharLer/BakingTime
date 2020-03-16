@@ -1,7 +1,5 @@
 package com.example.bakingtime;
 
-import android.util.Log;
-
 import com.example.bakingtime.database.Ingredient;
 
 import java.util.List;
@@ -16,14 +14,16 @@ public class Utils {
         StringBuilder ingredientsList = new StringBuilder();
         for (int i = 0; i < ingredients.size(); i++) {
             Ingredient ingredient = ingredients.get(i);
-            ingredientsList.append("* ")
+            ingredientsList.append("*  ")
                     .append(getQuantityInString(ingredient.getQuantity()))
                     .append(" ")
                     .append(ingredient.getMeasure())
                     .append(" ")
-                    .append(ingredient.getIngredient())
-                    .append("\n\n");
+                    .append(ingredient.getIngredient());
 
+            if (i < ingredients.size() - 1) {
+                ingredientsList.append("\n\n");
+            }
         }
         return ingredientsList.toString();
     }
