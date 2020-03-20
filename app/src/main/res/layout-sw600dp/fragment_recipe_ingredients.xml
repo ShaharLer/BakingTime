@@ -13,15 +13,11 @@
     limitations under the License.
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/error_layout"
-    style="@style/errorLayoutStyle">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/recipeIngredientsScrollView">
 
     <TextView
-        style="@style/errotTextViewPhone" />
+        android:id="@+id/recipe_ingredients_list_tv"
+        style="@style/ingredientsTextViewTablet" />
 
-    <Button
-        style="@style/errorButtonPhone"
-        android:onClick="refreshData" />
-
-</LinearLayout>
+</ScrollView>

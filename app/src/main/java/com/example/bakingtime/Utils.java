@@ -6,23 +6,27 @@ import java.util.List;
 
 public class Utils {
 
+    private static final String INGREDIENT_PREFIX = "*  ";
+    private static final String INGREDIENT_SEPARATOR = " ";
+    private static final String INGREDIENTS_SEPARATOR = "\n\n";
+
     public static String getIngredientsList(List<Ingredient> ingredients) {
         if (ingredients == null) {
-            return "";
+            return null;
         }
 
         StringBuilder ingredientsList = new StringBuilder();
         for (int i = 0; i < ingredients.size(); i++) {
             Ingredient ingredient = ingredients.get(i);
-            ingredientsList.append("*  ")
+            ingredientsList.append(INGREDIENT_PREFIX)
                     .append(getQuantityInString(ingredient.getQuantity()))
-                    .append(" ")
+                    .append(INGREDIENT_SEPARATOR)
                     .append(ingredient.getMeasure())
-                    .append(" ")
+                    .append(INGREDIENT_SEPARATOR)
                     .append(ingredient.getIngredient());
 
             if (i < ingredients.size() - 1) {
-                ingredientsList.append("\n\n");
+                ingredientsList.append(INGREDIENTS_SEPARATOR);
             }
         }
         return ingredientsList.toString();

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.bakingtime.R;
-import com.example.bakingtime.Utils;
 import com.example.bakingtime.database.Recipe;
 import com.example.bakingtime.database.Step;
 
@@ -16,7 +15,6 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,7 +45,6 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
             mCurrentChosenPosition = savedInstanceState.getInt(SAVED_INSTANCE_CHOSEN_POSITION);
         } else if (Objects.requireNonNull(getActivity()).findViewById(R.id.recipe_step_fragment_tablet) != null) {
             mTwoPane = true;
-            // TODO check if can create the step fragment from here
             ((RecipeDetailsActivity) requireActivity()).createIngredientsFragment(mRecipe.getIngredients(), true);
         }
 
@@ -57,9 +54,9 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
             return null;
         }
 
+        mAdapter = new RecipeDetailsAdapter(this, mRecipe.getIngredients(), mRecipe.getSteps(), mTwoPane, mCurrentChosenPosition);
         View rootView = inflater.inflate(R.layout.fragment_recipe_details_list, container, false);
         RecyclerView mRecipesRecyclerView = rootView.findViewById(R.id.rv_recipe_details);
-        mAdapter = new RecipeDetailsAdapter(this, mRecipe.getIngredients(), mRecipe.getSteps(), mTwoPane, mCurrentChosenPosition);
         mRecipesRecyclerView.setAdapter(mAdapter);
         mRecipesRecyclerView.setHasFixedSize(true);
         return rootView;
@@ -68,14 +65,10 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
     @Override
     public void onIngredientsClicked() {
         if (!mTwoPane) {
-            new AlertDialog.Builder(Objects.requireNonNull(getContext()), R.style.alertDialogTheme)
-                    .setMessage(Utils.getIngredientsList(mRecipe.getIngredients()))
-                    .setNegativeButton(R.string.review_dialog_back_button, null)
-                    .show();
+            startActivity(new Intent(getActivity(), RecipeIngredientsActivity.class));
         } else if (mAdapter.getCurrentChosenStepPosition() != 0) {
             ((RecipeDetailsActivity) requireActivity()).createIngredientsFragment(mRecipe.getIngredients(), false);
-            mCurrentChosenPosition = 0;
-            mAdapter.setCurrentChosenPosition(mCurrentChosenPosition);
+            mAdapter.setCurrentChosenPosition(mCurrentChosenPosition = 0);
         }
     }
 
@@ -90,24 +83,9 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
             startActivity(intent);
         } else if (mAdapter.getCurrentChosenStepPosition() != chosenStepPosition) {
             ((RecipeDetailsActivity) requireActivity()).createStepFragment(chosenStep);
-            mCurrentChosenPosition = chosenStepPosition;
-            mAdapter.setCurrentChosenPosition(mCurrentChosenPosition);
+            mAdapter.setCurrentChosenPosition(mCurrentChosenPosition = chosenStepPosition);
         }
     }
-
-    // TODO check if it a bad practice to put this functions here instead of in the activity
-    /*
-    private void createStepFragment(Step step, boolean addFragment) {
-        RecipeStepFragment stepFragment = new RecipeStepFragment(step);
-        FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-        if (addFragment) {
-            transaction.add(R.id.recipe_step_fragment_tablet, stepFragment);
-        } else {
-            transaction.replace(R.id.recipe_step_fragment_tablet, stepFragment);
-        }
-        transaction.commit();
-    }
-     */
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {

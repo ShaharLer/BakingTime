@@ -2,6 +2,7 @@ package com.example.bakingtime.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.example.bakingtime.R;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -27,11 +29,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
-
-        Toolbar mToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(mToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(0);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
@@ -49,32 +46,38 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 return;
             }
 
-            mRecipeName = recipe.getName();
-
-            RecipeDetailsFragment detailsFragment = new RecipeDetailsFragment(recipe);
+            mRecipeName = PreferenceManager.getDefaultSharedPreferences(this)
+                    .getString(getString(R.string.pref_recipe_name_key), getString(R.string.pref_default_recipe_name));
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.recipe_details_fragment, detailsFragment)
+                    .add(R.id.recipe_details_fragment, new RecipeDetailsFragment(recipe))
                     .commit();
-        } else {
+        }
+        else {
             mRecipeName = savedInstanceState.getString(SAVED_INSTANCE_RECIPE_NAME);
         }
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(mRecipeName);
+        setToolbar();
+    }
+
+    private void setToolbar() {
+        Toolbar mToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(mRecipeName);
     }
 
     void closeOnError() {
         finish();
-        Toast.makeText(this, R.string.recipe_detail_data_error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.recipe_step_error, Toast.LENGTH_SHORT).show();
     }
 
     public void createStepFragment(Step step) {
-        RecipeStepFragment stepFragment = new RecipeStepFragment(step, false, false);
-        makeFragmentTransaction(stepFragment, false);
+        makeFragmentTransaction(new RecipeStepFragment(step, false, false), false);
     }
 
     public void createIngredientsFragment(List<Ingredient> ingredients, boolean addFragment) {
-        RecipeIngredientsFragment ingredientsFragment = new RecipeIngredientsFragment(ingredients);
-        makeFragmentTransaction(ingredientsFragment, addFragment);
+        makeFragmentTransaction(new RecipeIngredientsFragment(false), addFragment);
     }
 
     private void makeFragmentTransaction(Fragment fragment, boolean addFragment) {

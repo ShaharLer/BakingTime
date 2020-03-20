@@ -1,17 +1,23 @@
 package com.example.bakingtime.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.bakingtime.R;
+import com.example.bakingtime.Utils;
 import com.example.bakingtime.database.Recipe;
 import com.example.bakingtime.database.RecipesClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,12 +35,21 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
     private static final String SAVED_INSTANCE_RECIPES_LIST = "recipes list";
     private List<Recipe> mRecipes;
     private RecipesAdapter mRecipesAdapter;
+
+    //    @BindView(R.id.recipes_list_layout)
+    FrameLayout mRecipesListLayout;
+
     //    @BindView(R.id.rv_recipes)
     RecyclerView mRecipesRecyclerView;
-    //    @BindView(R.id.pb_loading_indicator)
-    ProgressBar mProgressBar;
+
     //    @BindView(R.id.error_layout)
     LinearLayout mErrorLayout;
+
+    //    @BindView(R.id.pb_loading_indicator)
+    ProgressBar mProgressBar;
+
+    //    @BindView(R.id.recipe_ingredients_fragment_widget)
+    FrameLayout mIngredientsListLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +59,64 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
 
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        mRecipesRecyclerView = findViewById(R.id.rv_recipes);
-        mProgressBar = findViewById(R.id.pb_loading_indicator);
-        mErrorLayout = findViewById(R.id.error_layout);
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_RECIPES_LIST)) {
-            mRecipes = savedInstanceState.getParcelableArrayList(SAVED_INSTANCE_RECIPES_LIST);
-            showData();
+        mRecipesListLayout = findViewById(R.id.recipes_list_layout);
+        mRecipesRecyclerView = findViewById(R.id.rv_recipes);
+        mErrorLayout = findViewById(R.id.error_layout);
+        mProgressBar = findViewById(R.id.pb_loading_indicator);
+        mIngredientsListLayout = findViewById(R.id.recipe_ingredients_fragment_widget);
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+            // Got here from the homescreen widget
+            mRecipesListLayout.setVisibility(View.GONE);
+            if (savedInstanceState == null) {
+                showLastSeenRecipeIngredients();
+            } else {
+                setToolBarTitle();
+            }
         } else {
-            loadRecipesData();
+            // Got here from the app icon
+            mIngredientsListLayout.setVisibility(View.GONE);
+            if (savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_RECIPES_LIST)) {
+                mRecipes = savedInstanceState.getParcelableArrayList(SAVED_INSTANCE_RECIPES_LIST);
+                showRecipesList();
+            } else {
+                loadRecipesData();
+            }
         }
+    }
+
+    /**
+     * This method is called if the homescreen widget of the app was cicked.
+     * It shows the ingredients list of the recipe that was last seen, otherwise shows an
+     * informative message.
+     */
+    private void showLastSeenRecipeIngredients() {
+        setToolBarTitle();
+        RecipeIngredientsFragment ingredientsFragment = new RecipeIngredientsFragment(true);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.recipe_ingredients_fragment_widget, ingredientsFragment)
+                .commit();
+    }
+
+    /**
+     * This method closes the acrivity when the ingredients list is not available.
+     */
+    void closeOnIngredientsListError() {
+        finish();
+        Toast.makeText(this, R.string.recipe_ingredients_list_error, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * This method sets the toolbar title in case this activity was called from the homescreen
+     * widget.
+     */
+    private void setToolBarTitle() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String recipeName = sharedPreferences.getString(getString(R.string.pref_recipe_name_key),
+                getString(R.string.pref_default_recipe_name));
+        Objects.requireNonNull(getSupportActionBar()).setTitle(recipeName);
     }
 
     private void loadRecipesData() {
@@ -68,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
             @Override
             public void onResponse(@NonNull Call<List<Recipe>> call, @NonNull Response<List<Recipe>> response) {
                 mRecipes = response.body();
-                showData();
+                showRecipesList();
             }
 
             @Override
@@ -88,10 +151,9 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
     }
 
     /**
-     * This method will make either the recipes list or the error message visible, and hide the
-     * progress bar.
+     * This method will make the recipes list visible.
      */
-    private void showData() {
+    private void showRecipesList() {
         mRecipesAdapter = new RecipesAdapter(MainActivity.this, mRecipes);
         mRecipesRecyclerView.setAdapter(mRecipesAdapter);
         mRecipesRecyclerView.setHasFixedSize(true);
@@ -101,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
     }
 
     /**
-     * This method will make the error message visible and hide the recipes list.
+     * This method will make the error message visible.
      */
     private void showErrorMessage() {
         mRecipesRecyclerView.setVisibility(View.GONE);
@@ -109,7 +171,13 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
         mErrorLayout.setVisibility(View.VISIBLE);
     }
 
-    public void refreshData(View v) {
+    /**
+     * The method makes the app execute again the loadRecipesData function when the user clicks the
+     * REFRESH button, after an error occurs.
+     *
+     * @param view The view of the REFRESH button.
+     */
+    public void refreshData(View view) {
         loadRecipesData();
     }
 
@@ -120,8 +188,14 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
      */
     @Override
     public void onRecipeClicked(int position) {
+        Recipe chosenRecipe = mRecipesAdapter.getRecipes().get(position);
+        String ingredientsList = Utils.getIngredientsList(chosenRecipe.getIngredients());
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putString(getString(R.string.pref_recipe_name_key), chosenRecipe.getName())
+                .putString(getString(R.string.pref_recipe_ingredients_list_key), ingredientsList)
+                .apply();
         Intent intent = new Intent(this, RecipeDetailsActivity.class);
-        intent.putExtra(Intent.EXTRA_TEXT, mRecipesAdapter.getRecipes().get(position));
+        intent.putExtra(Intent.EXTRA_TEXT, chosenRecipe);
         startActivity(intent);
     }
 

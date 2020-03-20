@@ -43,15 +43,15 @@ public class RecipeStepFragment extends Fragment {
     private static final String SAVED_INSTANCE_VIDEO_AUTO_PLAY = "auto_play";
 
     private Step mStep;
+    private String mVideoUrl;
     private boolean mHasPrev;
     private boolean mHasNext;
-    private String mVideoUrl;
     private boolean mStartAutoPlay;
     private int mStartWindow;
     private long mStartPosition;
 
     //    private Unbinder unbinder;
-//    private ExoPlayer mPlayer;
+    //    private ExoPlayer mPlayer;
     private SimpleExoPlayer mPlayer;
     //    @BindView(R.id.recipe_step_video)
     private SimpleExoPlayerView mPlayerView;
@@ -84,24 +84,21 @@ public class RecipeStepFragment extends Fragment {
             mStartWindow = C.INDEX_UNSET;
         }
 
-        // TODO act different whether on tablet or not
         if (mStep == null) {
+            // TODO act different whether on tablet or not
             ((RecipeStepActivity) requireActivity()).closeOnError();
             return null;
         }
+        mVideoUrl = mStep.getVideoURL().isEmpty() ? mStep.getThumbnailURL() : mStep.getVideoURL();
+
         View rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
         mPlayerView = rootView.findViewById(R.id.recipe_step_video);
         mNoVideoIv = rootView.findViewById(R.id.no_video_available);
-        mVideoUrl = !mStep.getVideoURL().isEmpty() ? mStep.getVideoURL() : mStep.getThumbnailURL();
         mStepDescriptionFrameLayout = rootView.findViewById(R.id.recipe_step_description_frame_layout);
-        TextView mRecipeStepDescriptionTv = rootView.findViewById(R.id.recipe_step_description_tv);
-        mRecipeStepDescriptionTv.setText(mStep.getDescription());
         mRecipeStepButtonsLayout = rootView.findViewById(R.id.recipe_steps_buttons_layout);
-        Button mPrevStepButton = rootView.findViewById(R.id.recipe_prev_step);
-        setButtonClickListener(mPrevStepButton, mHasPrev, false);
-        Button mNextStepButton = rootView.findViewById(R.id.recipe_next_step);
-        setButtonClickListener(mNextStepButton, mHasNext, true);
-
+        ((TextView) rootView.findViewById(R.id.recipe_step_description_tv)).setText(mStep.getDescription());
+        setButtonClickListener(rootView.findViewById(R.id.recipe_prev_step), mHasPrev, false);
+        setButtonClickListener(rootView.findViewById(R.id.recipe_next_step), mHasNext, true);
         updateScreen(getResources().getConfiguration());
         return rootView;
     }
@@ -113,17 +110,6 @@ public class RecipeStepFragment extends Fragment {
             button.setVisibility(View.GONE);
         }
     }
-
-    /*
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (mVideoUrl != null) {
-            initializePlayer(mVideoUrl);
-        }
-    }
-
-     */
 
     @Override
     public void onStart() {
@@ -163,7 +149,6 @@ public class RecipeStepFragment extends Fragment {
         mNoVideoIv.setVisibility(View.VISIBLE);
     }
 
-    // TODO try to change the deprecated code
     private void initializePlayer(String videoUrl) {
         mPlayer = ExoPlayerFactory.newSimpleInstance(Objects.requireNonNull(getContext()),
                 new DefaultTrackSelector(), new DefaultLoadControl());
@@ -180,15 +165,6 @@ public class RecipeStepFragment extends Fragment {
         mPlayer.setPlayWhenReady(mStartAutoPlay);
         mPlayerView.setPlayer(mPlayer);
     }
-
-    /*
-    @Override
-    public void onPause() {
-        super.onPause();
-        releasePlayer();
-    }
-
-     */
 
     @Override
     public void onPause() {
@@ -249,7 +225,6 @@ public class RecipeStepFragment extends Fragment {
 
     private void updateStartPosition() {
         if (mPlayer != null) {
-//            mStartAutoPlay = mPlayer.isPlaying();
             mStartAutoPlay = false;
             mStartWindow = mPlayer.getCurrentWindowIndex();
             mStartPosition = Math.max(0, mPlayer.getContentPosition());

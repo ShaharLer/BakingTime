@@ -13,15 +13,10 @@
     limitations under the License.
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/error_layout"
-    style="@style/errorLayoutStyle">
-
-    <TextView
-        style="@style/errotTextViewPhone" />
-
-    <Button
-        style="@style/errorButtonPhone"
-        android:onClick="refreshData" />
-
-</LinearLayout>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialKeyguardLayout="@layout/recipe_widget_provider"
+    android:initialLayout="@layout/recipe_widget_provider"
+    android:minWidth="@dimen/appwidget_min_size"
+    android:minHeight="@dimen/appwidget_min_size"
+    android:previewImage="@drawable/baking_list"
+    android:widgetCategory="home_screen" />

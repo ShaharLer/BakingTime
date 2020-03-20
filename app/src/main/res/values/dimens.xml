@@ -11,4 +11,7 @@
     <dimen name="card_view_margin">15dp</dimen>
     <dimen name="player_view_margin">15dp</dimen>
     <dimen name="line_seperator_width">1dp</dimen>
+    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="appwidget_min_size">40dp</dimen>
+    <dimen name="widget_image_height">621dp</dimen>
 </resources>

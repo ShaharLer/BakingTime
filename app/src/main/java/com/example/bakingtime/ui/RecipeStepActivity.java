@@ -50,7 +50,7 @@ public class RecipeStepActivity extends AppCompatActivity {
             return;
         }
 
-        if (!intent.hasExtra(Intent.EXTRA_TEXT) || !intent.hasExtra(Intent.EXTRA_REFERRER)) {
+        if (!intent.hasExtra(Intent.EXTRA_TEXT) || !intent.hasExtra(Intent.EXTRA_REFERRER) || !intent.hasExtra(Intent.EXTRA_INTENT)) {
             closeOnError();
             return;
         }
@@ -78,24 +78,18 @@ public class RecipeStepActivity extends AppCompatActivity {
     }
 
     public void onPrevNextStepsClicked(boolean add) {
-        if (add) {
-            mStepNumber++;
-        } else {
-            mStepNumber--;
-        }
+        mStepNumber += (add) ? 1 : (-1);
         createStepFragment(false);
     }
 
     private void createStepFragment(boolean addFragment) {
-        Step step = mSteps.get(mStepNumber);
-
         RecipeStepFragment stepFragment;
         if (mStepNumber == 0) {
-            stepFragment = new RecipeStepFragment(step, false, true);
+            stepFragment = new RecipeStepFragment(mSteps.get(mStepNumber), false, true);
         } else if (mStepNumber < mSteps.size() - 1) {
-            stepFragment = new RecipeStepFragment(step, true, true);
+            stepFragment = new RecipeStepFragment(mSteps.get(mStepNumber), true, true);
         } else {
-            stepFragment = new RecipeStepFragment(step, true, false);
+            stepFragment = new RecipeStepFragment(mSteps.get(mStepNumber), true, false);
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

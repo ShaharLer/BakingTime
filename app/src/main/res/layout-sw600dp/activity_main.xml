@@ -21,11 +21,12 @@
     <include layout="@layout/tool_bar" />
 
     <FrameLayout
+        android:id="@id/recipes_list_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_recipes"
+            android:id="@id/rv_recipes"
             style="@style/recipeListTabletStyle" />
 
         <include layout="@layout/error_layout" />
@@ -33,5 +34,7 @@
         <include layout="@layout/progress_bar" />
 
     </FrameLayout>
+
+    <include layout="@layout/ingredients_fragment_container" />
 
 </LinearLayout>

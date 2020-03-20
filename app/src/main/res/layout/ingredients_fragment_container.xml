@@ -13,15 +13,7 @@
     limitations under the License.
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/error_layout"
-    style="@style/errorLayoutStyle">
-
-    <TextView
-        style="@style/errotTextViewPhone" />
-
-    <Button
-        style="@style/errorButtonPhone"
-        android:onClick="refreshData" />
-
-</LinearLayout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recipe_ingredients_fragment_widget"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
