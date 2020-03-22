@@ -13,6 +13,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdapter.RecipeDetailsViewHolder> {
 
@@ -80,11 +82,11 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
 
     public class RecipeDetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView recipeDetail;
+        @BindView(R.id.recipe_detail) TextView recipeDetail;
 
         RecipeDetailsViewHolder(@NonNull View itemView) {
             super(itemView);
-            recipeDetail = itemView.findViewById(R.id.recipe_detail);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 

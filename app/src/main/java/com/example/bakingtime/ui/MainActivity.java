@@ -23,6 +23,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,36 +38,19 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
     private static final String SAVED_INSTANCE_RECIPES_LIST = "recipes list";
     private List<Recipe> mRecipes;
     private RecipesAdapter mRecipesAdapter;
-
-    //    @BindView(R.id.recipes_list_layout)
-    FrameLayout mRecipesListLayout;
-
-    //    @BindView(R.id.rv_recipes)
-    RecyclerView mRecipesRecyclerView;
-
-    //    @BindView(R.id.error_layout)
-    LinearLayout mErrorLayout;
-
-    //    @BindView(R.id.pb_loading_indicator)
-    ProgressBar mProgressBar;
-
-    //    @BindView(R.id.recipe_ingredients_fragment_widget)
-    FrameLayout mIngredientsListLayout;
+    @BindView(R.id.recipes_list_layout) FrameLayout mRecipesListLayout;
+    @BindView(R.id.rv_recipes) RecyclerView mRecipesRecyclerView;
+    @BindView(R.id.error_layout) LinearLayout mErrorLayout;
+    @BindView(R.id.pb_loading_indicator) ProgressBar mProgressBar;
+    @BindView(R.id.my_toolbar) Toolbar mToolbar;
+    @BindView(R.id.recipe_ingredients_fragment_widget) FrameLayout mIngredientsListLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        ButterKnife.bind(this);
-
-        Toolbar myToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-
-        mRecipesListLayout = findViewById(R.id.recipes_list_layout);
-        mRecipesRecyclerView = findViewById(R.id.rv_recipes);
-        mErrorLayout = findViewById(R.id.error_layout);
-        mProgressBar = findViewById(R.id.pb_loading_indicator);
-        mIngredientsListLayout = findViewById(R.id.recipe_ingredients_fragment_widget);
+        ButterKnife.bind(this);
+        setSupportActionBar(mToolbar);
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
@@ -114,9 +100,10 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
      */
     private void setToolBarTitle() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String recipeName = sharedPreferences.getString(getString(R.string.pref_recipe_name_key),
-                getString(R.string.pref_default_recipe_name));
-        Objects.requireNonNull(getSupportActionBar()).setTitle(recipeName);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(
+                sharedPreferences.getString(getString(R.string.pref_recipe_name_key),
+                        getString(R.string.pref_default_recipe_name))
+        );
     }
 
     private void loadRecipesData() {
@@ -177,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
      *
      * @param view The view of the REFRESH button.
      */
+    @OnClick(R.id.refresh_button)
     public void refreshData(View view) {
         loadRecipesData();
     }

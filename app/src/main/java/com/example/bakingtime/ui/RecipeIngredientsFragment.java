@@ -41,7 +41,6 @@ public class RecipeIngredientsFragment extends Fragment {
             if (mFromWidget) {
                 ((MainActivity) requireActivity()).closeOnIngredientsListError();
             } else {
-                // TODO check if from tablet or not. In case of Tablet don't close the activity - instead, show an error message
                 ((RecipeIngredientsActivity) requireActivity()).closeOnError();
             }
             return null;

@@ -32,6 +32,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class RecipeStepFragment extends Fragment {
 
@@ -49,17 +52,12 @@ public class RecipeStepFragment extends Fragment {
     private boolean mStartAutoPlay;
     private int mStartWindow;
     private long mStartPosition;
-
-    //    private Unbinder unbinder;
-    //    private ExoPlayer mPlayer;
+    private Unbinder unbinder;
     private SimpleExoPlayer mPlayer;
-    //    @BindView(R.id.recipe_step_video)
-    private SimpleExoPlayerView mPlayerView;
-    private ImageView mNoVideoIv;
-
-    //    @BindView(R.id.recipe_step_description)
-    private FrameLayout mStepDescriptionFrameLayout;
-    private RelativeLayout mRecipeStepButtonsLayout;
+    @BindView(R.id.recipe_step_video) SimpleExoPlayerView mPlayerView;
+    @BindView(R.id.no_video_available) ImageView mNoVideoIv;
+    @BindView(R.id.recipe_step_description_frame_layout) FrameLayout mStepDescriptionFrameLayout;
+    @BindView(R.id.recipe_steps_buttons_layout) RelativeLayout mRecipeStepButtonsLayout;
 
     public RecipeStepFragment() {
     }
@@ -85,17 +83,13 @@ public class RecipeStepFragment extends Fragment {
         }
 
         if (mStep == null) {
-            // TODO act different whether on tablet or not
             ((RecipeStepActivity) requireActivity()).closeOnError();
             return null;
         }
         mVideoUrl = mStep.getVideoURL().isEmpty() ? mStep.getThumbnailURL() : mStep.getVideoURL();
 
         View rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
-        mPlayerView = rootView.findViewById(R.id.recipe_step_video);
-        mNoVideoIv = rootView.findViewById(R.id.no_video_available);
-        mStepDescriptionFrameLayout = rootView.findViewById(R.id.recipe_step_description_frame_layout);
-        mRecipeStepButtonsLayout = rootView.findViewById(R.id.recipe_steps_buttons_layout);
+        unbinder = ButterKnife.bind(this, rootView);
         ((TextView) rootView.findViewById(R.id.recipe_step_description_tv)).setText(mStep.getDescription());
         setButtonClickListener(rootView.findViewById(R.id.recipe_prev_step), mHasPrev, false);
         setButtonClickListener(rootView.findViewById(R.id.recipe_next_step), mHasNext, true);
@@ -192,15 +186,7 @@ public class RecipeStepFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-//        if (unbinder != null) {
-//            unbinder.unbind();
-//        }
-
-        /*
-        if (!Objects.requireNonNull(getActivity()).isChangingConfigurations()) {
-            releasePlayer();
-        }
-         */
+        unbinder.unbind();
     }
 
     private void releasePlayer() {
@@ -231,7 +217,6 @@ public class RecipeStepFragment extends Fragment {
         }
     }
 
-    // TODO check why doesn't get called in tablet mode (master-detail flow)
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -252,17 +237,10 @@ public class RecipeStepFragment extends Fragment {
                 mStepDescriptionFrameLayout.setVisibility(View.GONE);
                 mRecipeStepButtonsLayout.setVisibility(View.GONE);
                 decorView.setSystemUiVisibility(
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
                         View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-
-                                // Hide the nav bar and status bar
                                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-//                                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                                 | View.SYSTEM_UI_FLAG_FULLSCREEN
-//                                | View.SYSTEM_UI_FLAG_LOW_PROFILE
                 );
             } else {
                 decorView.setSystemUiVisibility(0);

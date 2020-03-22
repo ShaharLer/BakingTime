@@ -49,7 +49,6 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
         }
 
         if (mRecipe == null) {
-            // TODO if mTwoPane don't close the activity, show an error message
             ((RecipeDetailsActivity) requireActivity()).closeOnError();
             return null;
         }

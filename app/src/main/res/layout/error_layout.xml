@@ -21,7 +21,7 @@
         style="@style/errotTextViewPhone" />
 
     <Button
-        style="@style/errorButtonPhone"
-        android:onClick="refreshData" />
+        android:id="@+id/refresh_button"
+        style="@style/errorButtonPhone" />
 
 </LinearLayout>

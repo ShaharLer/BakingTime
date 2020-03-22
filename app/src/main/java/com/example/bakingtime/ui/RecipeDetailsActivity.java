@@ -51,8 +51,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipe_details_fragment, new RecipeDetailsFragment(recipe))
                     .commit();
-        }
-        else {
+        } else {
             mRecipeName = savedInstanceState.getString(SAVED_INSTANCE_RECIPE_NAME);
         }
 
@@ -69,7 +68,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
     void closeOnError() {
         finish();
-        Toast.makeText(this, R.string.recipe_step_error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.recipe_error, Toast.LENGTH_SHORT).show();
     }
 
     public void createStepFragment(Step step) {

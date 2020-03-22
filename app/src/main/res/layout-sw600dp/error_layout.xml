@@ -21,7 +21,7 @@
         style="@style/errotTextViewTablet" />
 
     <Button
-        style="@style/errorButtonTablet"
-        android:onClick="refreshData" />
+        android:id="@id/refresh_button"
+        style="@style/errorButtonTablet" />
 
 </LinearLayout>

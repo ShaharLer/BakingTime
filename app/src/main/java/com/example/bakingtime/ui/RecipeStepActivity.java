@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
@@ -31,50 +32,47 @@ public class RecipeStepActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_step);
 
-        Toolbar mToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(mToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(0);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         if (savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_STEPS_LIST)) {
             mSteps = savedInstanceState.getParcelableArrayList(SAVED_INSTANCE_STEPS_LIST);
             mStepNumber = savedInstanceState.getInt(SAVED_INSTANCE_STEP_NUMBER);
             mRecipeName = savedInstanceState.getString(SAVED_INSTANCE_RECIPE_NAME);
-            setActionBarTitle();
-            return;
+        } else {
+            Intent intent = getIntent();
+            if (intent == null) {
+                closeOnError();
+                return;
+            }
+            if (!intent.hasExtra(Intent.EXTRA_TEXT) || !intent.hasExtra(Intent.EXTRA_REFERRER) || !intent.hasExtra(Intent.EXTRA_INTENT)) {
+                closeOnError();
+                return;
+            }
+
+            mSteps = intent.getParcelableArrayListExtra(Intent.EXTRA_TEXT);
+            mStepNumber = intent.getIntExtra(Intent.EXTRA_REFERRER, STEP_NUMBER_DEFAULT);
+            mRecipeName = intent.getStringExtra(Intent.EXTRA_INTENT);
+
+            if (mSteps == null || mStepNumber == STEP_NUMBER_DEFAULT || mRecipeName == null) {
+                closeOnError();
+                return;
+            }
+
+            createStepFragment(true);
         }
 
-        Intent intent = getIntent();
-        if (intent == null) {
-            closeOnError();
-            return;
-        }
-
-        if (!intent.hasExtra(Intent.EXTRA_TEXT) || !intent.hasExtra(Intent.EXTRA_REFERRER) || !intent.hasExtra(Intent.EXTRA_INTENT)) {
-            closeOnError();
-            return;
-        }
-
-        mSteps = intent.getParcelableArrayListExtra(Intent.EXTRA_TEXT);
-        mStepNumber = intent.getIntExtra(Intent.EXTRA_REFERRER, STEP_NUMBER_DEFAULT);
-        mRecipeName = intent.getStringExtra(Intent.EXTRA_INTENT);
-
-        if (mSteps == null || mStepNumber == STEP_NUMBER_DEFAULT || mRecipeName == null) {
-            closeOnError();
-            return;
-        }
-
-        setActionBarTitle();
-        createStepFragment(true);
+        setToolbar();
     }
 
-    private void setActionBarTitle() {
-        Objects.requireNonNull(getSupportActionBar()).setTitle(mRecipeName);
+    private void setToolbar() {
+        Toolbar mToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(mRecipeName);
     }
 
     void closeOnError() {
         finish();
-        Toast.makeText(this, R.string.recipe_step_data_error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.recipe_step_error, Toast.LENGTH_SHORT).show();
     }
 
     public void onPrevNextStepsClicked(boolean add) {
