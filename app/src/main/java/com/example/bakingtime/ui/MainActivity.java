@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
     @BindView(R.id.error_layout) LinearLayout mErrorLayout;
     @BindView(R.id.pb_loading_indicator) ProgressBar mProgressBar;
     @BindView(R.id.my_toolbar) Toolbar mToolbar;
-    @BindView(R.id.recipe_ingredients_fragment_widget) FrameLayout mIngredientsListLayout;
+    @BindView(R.id.recipe_ingredients_container) FrameLayout mIngredientsListLayout;
 
     // The Idling Resource which will be null in production.
     @Nullable private SimpleIdlingResource mIdlingResource;
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
         setToolBarTitle();
         RecipeIngredientsFragment ingredientsFragment = new RecipeIngredientsFragment(true);
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.recipe_ingredients_fragment_widget, ingredientsFragment)
+                .add(R.id.recipe_ingredients_container, ingredientsFragment)
                 .commit();
     }
 

@@ -21,10 +21,6 @@
 
     <include layout="@layout/tool_bar" />
 
-<!--    TODO check if can include ingredients_fragment_container.xml-->
-    <FrameLayout
-        android:id="@+id/recipe_ingredients_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <include layout="@layout/ingredients_fragment_container" />
 
 </LinearLayout>

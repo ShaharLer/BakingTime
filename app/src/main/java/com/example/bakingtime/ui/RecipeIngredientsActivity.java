@@ -27,7 +27,7 @@ public class RecipeIngredientsActivity extends AppCompatActivity {
             mRecipeName = PreferenceManager.getDefaultSharedPreferences(this)
                     .getString(getString(R.string.pref_recipe_name_key), getString(R.string.pref_default_recipe_name));
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.recipe_ingredients_fragment, new RecipeIngredientsFragment(false))
+                    .add(R.id.recipe_ingredients_container, new RecipeIngredientsFragment(false))
                     .commit();
         } else {
             mRecipeName = savedInstanceState.getString(SAVED_INSTANCE_RECIPE_NAME);
