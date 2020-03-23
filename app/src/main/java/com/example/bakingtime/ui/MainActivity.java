@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.bakingtime.IdlingResource.SimpleIdlingResource;
 import com.example.bakingtime.R;
 import com.example.bakingtime.Utils;
 import com.example.bakingtime.database.Recipe;
@@ -20,9 +21,12 @@ import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.espresso.IdlingResource;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -45,12 +49,29 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
     @BindView(R.id.my_toolbar) Toolbar mToolbar;
     @BindView(R.id.recipe_ingredients_fragment_widget) FrameLayout mIngredientsListLayout;
 
+    // The Idling Resource which will be null in production.
+    @Nullable private SimpleIdlingResource mIdlingResource;
+
+    /**
+     * Only called from test, creates and returns a new {@link SimpleIdlingResource}.
+     */
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+
+        getIdlingResource();
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
@@ -107,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
     }
 
     private void loadRecipesData() {
+        setIdlingResource(false);
         hideData();
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(BAKING_RECIPES_HTTP_URL)
@@ -119,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
             public void onResponse(@NonNull Call<List<Recipe>> call, @NonNull Response<List<Recipe>> response) {
                 mRecipes = response.body();
                 showRecipesList();
+                setIdlingResource(true);
             }
 
             @Override
@@ -126,6 +149,17 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
                 showErrorMessage();
             }
         });
+    }
+
+    /**
+     * This method calls setIdleState in order to update the idlingResource state.
+     *
+     * @param state - The current idle state of the idlingResource.
+     */
+    private void setIdlingResource(boolean state) {
+        if (mIdlingResource != null) {
+            mIdlingResource.setIdleState(state);
+        }
     }
 
     /**
