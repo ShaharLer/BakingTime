@@ -1,57 +1,45 @@
+/*
+    Copyright (C) 2020 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+
 package com.example.bakingtime.ui;
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.example.bakingtime.R;
+import com.example.bakingtime.Utils.ActionBarUtils;
 
-import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 public class RecipeIngredientsActivity extends AppCompatActivity {
-
-    private static final String SAVED_INSTANCE_RECIPE_NAME = "recipe name";
-    private String mRecipeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_ingredients);
+        setSupportActionBar(findViewById(R.id.my_toolbar));
+        ActionBarUtils.setToolbarTitle(this, getSupportActionBar());
 
         if (savedInstanceState == null) {
-            mRecipeName = PreferenceManager.getDefaultSharedPreferences(this)
-                    .getString(getString(R.string.pref_recipe_name_key), getString(R.string.pref_default_recipe_name));
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipe_ingredients_container, new RecipeIngredientsFragment(false))
                     .commit();
-        } else {
-            mRecipeName = savedInstanceState.getString(SAVED_INSTANCE_RECIPE_NAME);
         }
-
-        setToolbar();
-    }
-
-    private void setToolbar() {
-        Toolbar mToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(mToolbar);
-        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(mRecipeName);
     }
 
     void closeOnError() {
         finish();
         Toast.makeText(this, R.string.recipe_ingredients_list_error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(SAVED_INSTANCE_RECIPE_NAME, mRecipeName);
     }
 }

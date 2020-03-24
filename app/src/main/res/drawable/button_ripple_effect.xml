@@ -17,10 +17,10 @@
     android:color="?android:attr/colorControlHighlight">
     <item>
         <shape>
-            <corners android:radius="25dp" />
+            <corners android:radius="@dimen/button_radius" />
             <solid android:color="@color/colorPrimary" />
             <stroke
-                android:width="3dp"
+                android:width="@dimen/button_frame_width"
                 android:color="@android:color/black" />
         </shape>
     </item>

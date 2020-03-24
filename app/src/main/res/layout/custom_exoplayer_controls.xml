@@ -27,16 +27,16 @@
 
         <ImageButton
             android:id="@id/exo_play"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/exo_player_button_size"
+            android:layout_height="@dimen/exo_player_button_size"
             android:layout_gravity="center"
             android:background="@drawable/ic_play_circle_outline_black_48dp"
             android:contentDescription="@string/exo_controls_play_description" />
 
         <ImageButton
             android:id="@id/exo_pause"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/exo_player_button_size"
+            android:layout_height="@dimen/exo_player_button_size"
             android:layout_gravity="center"
             android:background="@drawable/ic_pause_circle_outline_black_48dp"
             android:contentDescription="@string/exo_controls_pause_description" />
@@ -46,15 +46,15 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="5dp">
+        android:paddingBottom="@dimen/video_timebar_padding_bottom">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:orientation="horizontal"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/video_timebar_margin_horizontal"
+            android:layout_marginEnd="@dimen/video_timebar_margin_horizontal"
             tools:ignore="UselessParent">
 
             <TextView
@@ -62,17 +62,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
+                android:paddingStart="@dimen/exo_position_padding_horizontal"
+                android:paddingEnd="@dimen/exo_position_padding_horizontal"
                 android:textColor="@android:color/white"
-                android:textSize="14sp"
+                android:textSize="@dimen/exo_position_text_size"
                 android:textStyle="bold" />
 
             <com.google.android.exoplayer2.ui.DefaultTimeBar
                 android:id="@id/exo_progress"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="18dp"
+                android:layout_height="@dimen/timebar_height"
                 app:played_color="@android:color/holo_red_dark"
                 app:played_ad_marker_color="@color/itemBackgroundColor"
                 android:focusable="true"
@@ -83,9 +83,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:textSize="14sp"
+                android:paddingStart="@dimen/exo_duration_padding_horizontal"
+                android:paddingEnd="@dimen/exo_duration_padding_horizontal"
+                android:textSize="@dimen/exo_duration_text_size"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 

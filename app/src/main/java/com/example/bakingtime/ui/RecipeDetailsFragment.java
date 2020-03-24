@@ -1,3 +1,17 @@
+/*
+    Copyright (C) 2020 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+
 package com.example.bakingtime.ui;
 
 import android.content.Intent;
@@ -23,7 +37,6 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
     private static final String SAVED_INSTANCE_RECIPE_OBJECT = "recipe";
     private static final String SAVED_INSTANCE_TWO_PANE = "two pane";
     private static final String SAVED_INSTANCE_CHOSEN_POSITION = "chosne position";
-
     private RecipeDetailsAdapter mAdapter;
     private Recipe mRecipe;
     private boolean mTwoPane;
@@ -45,7 +58,7 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
             mCurrentChosenPosition = savedInstanceState.getInt(SAVED_INSTANCE_CHOSEN_POSITION);
         } else if (Objects.requireNonNull(getActivity()).findViewById(R.id.recipe_step_fragment_tablet) != null) {
             mTwoPane = true;
-            ((RecipeDetailsActivity) requireActivity()).createIngredientsFragment(mRecipe.getIngredients(), true);
+            ((RecipeDetailsActivity) requireActivity()).createIngredientsFragment(true);
         }
 
         if (mRecipe == null) {
@@ -53,7 +66,8 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
             return null;
         }
 
-        mAdapter = new RecipeDetailsAdapter(this, mRecipe.getIngredients(), mRecipe.getSteps(), mTwoPane, mCurrentChosenPosition);
+        mAdapter = new RecipeDetailsAdapter(this, mRecipe.getIngredients(),
+                mRecipe.getSteps(), mTwoPane, mCurrentChosenPosition);
         View rootView = inflater.inflate(R.layout.fragment_recipe_details_list, container, false);
         RecyclerView mRecipesRecyclerView = rootView.findViewById(R.id.rv_recipe_details);
         mRecipesRecyclerView.setAdapter(mAdapter);
@@ -66,23 +80,22 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
         if (!mTwoPane) {
             startActivity(new Intent(getActivity(), RecipeIngredientsActivity.class));
         } else if (mAdapter.getCurrentChosenStepPosition() != 0) {
-            ((RecipeDetailsActivity) requireActivity()).createIngredientsFragment(mRecipe.getIngredients(), false);
+            ((RecipeDetailsActivity) requireActivity()).createIngredientsFragment(false);
             mAdapter.setCurrentChosenPosition(mCurrentChosenPosition = 0);
         }
     }
 
     @Override
     public void onStepClicked(int chosenStepPosition) {
-        Step chosenStep = mRecipe.getSteps().get(chosenStepPosition - 1);
         if (!mTwoPane) {
             Intent intent = new Intent(getActivity(), RecipeStepActivity.class);
             intent.putParcelableArrayListExtra(Intent.EXTRA_TEXT, new ArrayList<>(mRecipe.getSteps()));
             intent.putExtra(Intent.EXTRA_REFERRER, chosenStepPosition - 1);
-            intent.putExtra(Intent.EXTRA_INTENT, mRecipe.getName());
             startActivity(intent);
         } else if (mAdapter.getCurrentChosenStepPosition() != chosenStepPosition) {
-            ((RecipeDetailsActivity) requireActivity()).createStepFragment(chosenStep);
             mAdapter.setCurrentChosenPosition(mCurrentChosenPosition = chosenStepPosition);
+            Step chosenStep = mRecipe.getSteps().get(chosenStepPosition - 1);
+            ((RecipeDetailsActivity) requireActivity()).createStepFragment(chosenStep);
         }
     }
 

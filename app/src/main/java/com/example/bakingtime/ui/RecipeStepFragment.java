@@ -1,3 +1,17 @@
+/*
+    Copyright (C) 2020 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+
 package com.example.bakingtime.ui;
 
 import android.content.res.Configuration;
@@ -44,9 +58,9 @@ public class RecipeStepFragment extends Fragment {
     private static final String SAVED_INSTANCE_VIDEO_WINDOW = "window";
     private static final String SAVED_INSTANCE_VIDEO_START_POSITION = "position";
     private static final String SAVED_INSTANCE_VIDEO_AUTO_PLAY = "auto_play";
-
-    private Step mStep;
+    private static final int TABLET_SMALLEST_SCREEN_WIDTH = 600;
     private String mVideoUrl;
+    private Step mStep;
     private boolean mHasPrev;
     private boolean mHasNext;
     private boolean mStartAutoPlay;
@@ -102,6 +116,38 @@ public class RecipeStepFragment extends Fragment {
             button.setOnClickListener(v -> ((RecipeStepActivity) requireActivity()).onPrevNextStepsClicked(isNext));
         } else {
             button.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        updateScreen(newConfig);
+    }
+
+    private void updateScreen(Configuration config) {
+        if (config.smallestScreenWidthDp >= TABLET_SMALLEST_SCREEN_WIDTH) {
+            mRecipeStepButtonsLayout.setVisibility(View.GONE);
+        } else {
+            View decorView = Objects.requireNonNull(getActivity()).getWindow().getDecorView();
+            Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
+            if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                // We expand to fullscreen on landscape
+                mStepDescriptionFrameLayout.setVisibility(View.GONE);
+                mRecipeStepButtonsLayout.setVisibility(View.GONE);
+                toolbar.setVisibility(View.GONE);
+                decorView.setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                );
+            } else {
+                decorView.setSystemUiVisibility(0);
+                toolbar.setVisibility(View.VISIBLE);
+                mStepDescriptionFrameLayout.setVisibility(View.VISIBLE);
+                mRecipeStepButtonsLayout.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -180,33 +226,14 @@ public class RecipeStepFragment extends Fragment {
         if (mPlayerView != null) {
             mPlayerView.onPause();
         }
-        releasePlayer();
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    private void releasePlayer() {
+        // release the player
         if (mPlayer != null) {
             updateStartPosition();
             mPlayer.stop();
             mPlayer.release();
             mPlayer = null;
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(SAVED_INSTANCE_STEP_OBJECT, mStep);
-        outState.putBoolean(SAVED_INSTANCE_HAS_PREV, mHasPrev);
-        outState.putBoolean(SAVED_INSTANCE_HAS_NEXT, mHasNext);
-        updateStartPosition();
-        outState.putBoolean(SAVED_INSTANCE_VIDEO_AUTO_PLAY, mStartAutoPlay);
-        outState.putInt(SAVED_INSTANCE_VIDEO_WINDOW, mStartWindow);
-        outState.putLong(SAVED_INSTANCE_VIDEO_START_POSITION, mStartPosition);
     }
 
     private void updateStartPosition() {
@@ -218,37 +245,19 @@ public class RecipeStepFragment extends Fragment {
     }
 
     @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        updateScreen(newConfig);
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
-    private void updateScreen(Configuration config) {
-        int smallestScreenWidthDp = config.smallestScreenWidthDp;
-        int orientation = config.orientation;
-
-        if (smallestScreenWidthDp >= 600) {
-            mRecipeStepButtonsLayout.setVisibility(View.GONE);
-        } else {
-            View decorView = Objects.requireNonNull(getActivity()).getWindow().getDecorView();
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
-                toolbar.setVisibility(View.GONE);
-                mStepDescriptionFrameLayout.setVisibility(View.GONE);
-                mRecipeStepButtonsLayout.setVisibility(View.GONE);
-                decorView.setSystemUiVisibility(
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                );
-            } else {
-                decorView.setSystemUiVisibility(0);
-                Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
-                toolbar.setVisibility(View.VISIBLE);
-                mStepDescriptionFrameLayout.setVisibility(View.VISIBLE);
-                mRecipeStepButtonsLayout.setVisibility(View.VISIBLE);
-            }
-        }
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(SAVED_INSTANCE_STEP_OBJECT, mStep);
+        outState.putBoolean(SAVED_INSTANCE_HAS_PREV, mHasPrev);
+        outState.putBoolean(SAVED_INSTANCE_HAS_NEXT, mHasNext);
+        updateStartPosition();
+        outState.putBoolean(SAVED_INSTANCE_VIDEO_AUTO_PLAY, mStartAutoPlay);
+        outState.putInt(SAVED_INSTANCE_VIDEO_WINDOW, mStartWindow);
+        outState.putLong(SAVED_INSTANCE_VIDEO_START_POSITION, mStartPosition);
     }
 }

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <integer name="portrait_columns_number">1</integer>
-    <integer name="landscape_columns_number">2</integer>
-    <integer name="tablet_recipes_columns_number">2</integer>
-    <integer name="tablet_details_columns_number">1</integer>
-</resources>

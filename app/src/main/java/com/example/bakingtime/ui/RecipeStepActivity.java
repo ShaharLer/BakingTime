@@ -1,3 +1,17 @@
+/*
+    Copyright (C) 2020 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+
 package com.example.bakingtime.ui;
 
 import android.content.Intent;
@@ -5,69 +19,49 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.bakingtime.R;
+import com.example.bakingtime.Utils.ActionBarUtils;
 import com.example.bakingtime.database.Step;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 public class RecipeStepActivity extends AppCompatActivity {
 
     private static final String SAVED_INSTANCE_STEPS_LIST = "steps list";
     private static final String SAVED_INSTANCE_STEP_NUMBER = "step number";
-    private static final String SAVED_INSTANCE_RECIPE_NAME = "reipce name";
     private static final int STEP_NUMBER_DEFAULT = -1;
     private List<Step> mSteps;
     private int mStepNumber;
-    private String mRecipeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_step);
+        setSupportActionBar(findViewById(R.id.my_toolbar));
+        ActionBarUtils.setToolbarTitle(this, getSupportActionBar());
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_STEPS_LIST)) {
             mSteps = savedInstanceState.getParcelableArrayList(SAVED_INSTANCE_STEPS_LIST);
             mStepNumber = savedInstanceState.getInt(SAVED_INSTANCE_STEP_NUMBER);
-            mRecipeName = savedInstanceState.getString(SAVED_INSTANCE_RECIPE_NAME);
         } else {
             Intent intent = getIntent();
-            if (intent == null) {
+            if (intent == null || !intent.hasExtra(Intent.EXTRA_TEXT) || !intent.hasExtra(Intent.EXTRA_REFERRER)) {
                 closeOnError();
                 return;
             }
-            if (!intent.hasExtra(Intent.EXTRA_TEXT) || !intent.hasExtra(Intent.EXTRA_REFERRER) || !intent.hasExtra(Intent.EXTRA_INTENT)) {
-                closeOnError();
-                return;
-            }
-
             mSteps = intent.getParcelableArrayListExtra(Intent.EXTRA_TEXT);
             mStepNumber = intent.getIntExtra(Intent.EXTRA_REFERRER, STEP_NUMBER_DEFAULT);
-            mRecipeName = intent.getStringExtra(Intent.EXTRA_INTENT);
-
-            if (mSteps == null || mStepNumber == STEP_NUMBER_DEFAULT || mRecipeName == null) {
+            if (mSteps == null || mStepNumber == STEP_NUMBER_DEFAULT) {
                 closeOnError();
                 return;
             }
 
             createStepFragment(true);
         }
-
-        setToolbar();
-    }
-
-    private void setToolbar() {
-        Toolbar mToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(mToolbar);
-        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(mRecipeName);
     }
 
     void closeOnError() {
@@ -105,7 +99,6 @@ public class RecipeStepActivity extends AppCompatActivity {
         if (mSteps != null && mStepNumber != STEP_NUMBER_DEFAULT) {
             outState.putParcelableArrayList(SAVED_INSTANCE_STEPS_LIST, new ArrayList<>(mSteps));
             outState.putInt(SAVED_INSTANCE_STEP_NUMBER, mStepNumber);
-            outState.putString(SAVED_INSTANCE_RECIPE_NAME, mRecipeName);
         }
     }
 }
