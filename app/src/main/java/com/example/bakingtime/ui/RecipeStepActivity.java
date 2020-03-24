@@ -24,6 +24,7 @@ import com.example.bakingtime.database.Step;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +43,7 @@ public class RecipeStepActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_step);
         setSupportActionBar(findViewById(R.id.my_toolbar));
-        ActionBarUtils.setToolbarTitle(this, getSupportActionBar());
+        ActionBarUtils.setToolbarTitle(this, Objects.requireNonNull(getSupportActionBar()), true);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_STEPS_LIST)) {
             mSteps = savedInstanceState.getParcelableArrayList(SAVED_INSTANCE_STEPS_LIST);

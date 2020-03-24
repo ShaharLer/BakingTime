@@ -14,11 +14,14 @@
 
 package com.example.bakingtime.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.bakingtime.R;
 import com.example.bakingtime.Utils.ActionBarUtils;
+
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,11 +32,19 @@ public class RecipeIngredientsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_ingredients);
         setSupportActionBar(findViewById(R.id.my_toolbar));
-        ActionBarUtils.setToolbarTitle(this, getSupportActionBar());
+
+        boolean fromWidget = false;
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+            fromWidget = true;
+            ActionBarUtils.setToolbarTitle(this, Objects.requireNonNull(getSupportActionBar()), false);
+        } else {
+            ActionBarUtils.setToolbarTitle(this, Objects.requireNonNull(getSupportActionBar()), true);
+        }
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.recipe_ingredients_container, new RecipeIngredientsFragment(false))
+                    .add(R.id.recipe_ingredients_container, new RecipeIngredientsFragment(fromWidget))
                     .commit();
         }
     }

@@ -23,6 +23,8 @@ import com.example.bakingtime.Utils.ActionBarUtils;
 import com.example.bakingtime.database.Recipe;
 import com.example.bakingtime.database.Step;
 
+import java.util.Objects;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -33,7 +35,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
         setSupportActionBar(findViewById(R.id.my_toolbar));
-        ActionBarUtils.setToolbarTitle(this, getSupportActionBar());
+        ActionBarUtils.setToolbarTitle(this, Objects.requireNonNull(getSupportActionBar()), true);
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();

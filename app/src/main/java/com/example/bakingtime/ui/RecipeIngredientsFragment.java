@@ -29,6 +29,7 @@ import androidx.fragment.app.Fragment;
 
 public class RecipeIngredientsFragment extends Fragment {
 
+    private static final String SAVED_INSTANCE_FROM_WIDGET = "from widget";
     private boolean mFromWidget;
 
     public RecipeIngredientsFragment() {
@@ -41,20 +42,32 @@ public class RecipeIngredientsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        String ingredients = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(
-                getString(R.string.pref_recipe_ingredients_list_key), getString(R.string.pref_default_recipe_ingredients_list));
+        if (savedInstanceState != null) {
+            mFromWidget = savedInstanceState.getBoolean(SAVED_INSTANCE_FROM_WIDGET);
+        }
+
+        String ingredients;
+        if (mFromWidget) {
+            ingredients = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(
+                    getString(R.string.pref_recipe_ingredients_list_key), getString(R.string.pref_default_recipe_ingredients_list));
+        } else {
+            ingredients = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(
+                    getString(R.string.pref_recipe_ingredients_list_key), null);
+        }
 
         if (ingredients == null || ingredients.isEmpty()) {
-            if (mFromWidget) {
-                ((MainActivity) requireActivity()).closeOnIngredientsListError();
-            } else {
-                ((RecipeIngredientsActivity) requireActivity()).closeOnError();
-            }
+            ((RecipeIngredientsActivity) requireActivity()).closeOnError();
             return null;
         }
 
         View rootView = inflater.inflate(R.layout.fragment_recipe_ingredients, container, false);
         ((TextView) rootView.findViewById(R.id.recipe_ingredients_list_tv)).setText(ingredients);
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(SAVED_INSTANCE_FROM_WIDGET, mFromWidget);
     }
 }

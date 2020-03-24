@@ -18,10 +18,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.bakingtime.IdlingResource.SimpleIdlingResource;
 import com.example.bakingtime.R;
@@ -54,12 +52,10 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
     private static final String SAVED_INSTANCE_RECIPES_LIST = "recipes list";
     private List<Recipe> mRecipes;
     private RecipesAdapter mRecipesAdapter;
-    @BindView(R.id.recipes_list_layout) FrameLayout mRecipesListLayout;
     @BindView(R.id.rv_recipes) RecyclerView mRecipesRecyclerView;
     @BindView(R.id.error_layout) LinearLayout mErrorLayout;
     @BindView(R.id.pb_loading_indicator) ProgressBar mProgressBar;
     @BindView(R.id.my_toolbar) Toolbar mToolbar;
-    @BindView(R.id.recipe_ingredients_container) FrameLayout mIngredientsListLayout;
     @Nullable
     private SimpleIdlingResource mIdlingResource; // The Idling Resource which will be null in production.
 
@@ -83,41 +79,12 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
         setSupportActionBar(mToolbar);
         getIdlingResource();
 
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-            // In case the homescreen widget of the app was clicked
-            homescreenWidgetProcess(savedInstanceState);
-        } else {
-            // In case the app was clicked
-            appIconProcess(savedInstanceState);
-        }
-    }
-
-    private void homescreenWidgetProcess(Bundle savedInstanceState) {
-        mRecipesListLayout.setVisibility(View.GONE);
-        getSupportActionBar().setTitle(PreferenceManager
-                .getDefaultSharedPreferences(this)
-                .getString(getString(R.string.pref_recipe_name_key), getString(R.string.pref_default_recipe_name)));
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.recipe_ingredients_container, new RecipeIngredientsFragment(true))
-                    .commit();
-        }
-    }
-
-    private void appIconProcess(Bundle savedInstanceState) {
-        mIngredientsListLayout.setVisibility(View.GONE);
         if (savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_RECIPES_LIST)) {
             mRecipes = savedInstanceState.getParcelableArrayList(SAVED_INSTANCE_RECIPES_LIST);
             showRecipesList();
         } else {
             loadRecipesData();
         }
-    }
-
-    void closeOnIngredientsListError() {
-        finish();
-        Toast.makeText(this, R.string.recipe_ingredients_list_error, Toast.LENGTH_SHORT).show();
     }
 
     private void loadRecipesData() {

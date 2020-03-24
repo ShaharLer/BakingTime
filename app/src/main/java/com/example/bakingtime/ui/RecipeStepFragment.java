@@ -268,6 +268,7 @@ public class RecipeStepFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
         outState.putParcelable(SAVED_INSTANCE_STEP_OBJECT, mStep);
         outState.putBoolean(SAVED_INSTANCE_HAS_PREV, mHasPrev);
         outState.putBoolean(SAVED_INSTANCE_HAS_NEXT, mHasNext);

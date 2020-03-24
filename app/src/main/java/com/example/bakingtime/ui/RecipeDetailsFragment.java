@@ -101,6 +101,7 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
         outState.putParcelable(SAVED_INSTANCE_RECIPE_OBJECT, mRecipe);
         outState.putBoolean(SAVED_INSTANCE_TWO_PANE, mTwoPane);
         outState.putInt(SAVED_INSTANCE_CHOSEN_POSITION, mCurrentChosenPosition);

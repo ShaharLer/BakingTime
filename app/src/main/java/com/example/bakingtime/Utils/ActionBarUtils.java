@@ -24,13 +24,13 @@ import androidx.appcompat.app.ActionBar;
 
 public class ActionBarUtils {
 
-    public static void setToolbarTitle(Activity activity, ActionBar actionBar) {
+    public static void setToolbarTitle(Activity activity, ActionBar actionBar, boolean homeAsUpEnabled) {
         Resources resources = activity.getResources();
         String prefRecipeNameKey = resources.getString(R.string.pref_recipe_name_key);
         String prefDefaultRecipeName = resources.getString(R.string.pref_default_recipe_name);
         String recipeName = PreferenceManager.getDefaultSharedPreferences(activity)
                                 .getString(prefRecipeNameKey, prefDefaultRecipeName);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(homeAsUpEnabled);
         actionBar.setTitle(recipeName);
     }
 }

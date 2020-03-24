@@ -21,7 +21,6 @@
     <include layout="@layout/tool_bar" />
 
     <FrameLayout
-        android:id="@+id/recipes_list_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -34,7 +33,5 @@
         <include layout="@layout/progress_bar" />
 
     </FrameLayout>
-
-    <include layout="@layout/ingredients_fragment_container" />
 
 </LinearLayout>

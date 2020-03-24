@@ -22,7 +22,7 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.example.bakingtime.R;
-import com.example.bakingtime.ui.MainActivity;
+import com.example.bakingtime.ui.RecipeIngredientsActivity;
 
 /**
  * Implementation of App Widget functionality.
@@ -34,7 +34,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
 
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, RecipeIngredientsActivity.class);
         intent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.intent_widget));
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 , intent, 0);
 
