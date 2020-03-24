@@ -22,11 +22,6 @@
     </style>
 
 
-    <style name="alertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/itemBackgroundColor</item>
-    </style>
-
-
     <style name="activityLayoutStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>

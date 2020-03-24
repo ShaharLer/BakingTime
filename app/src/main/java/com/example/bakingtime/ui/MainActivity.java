@@ -23,7 +23,7 @@ import android.widget.ProgressBar;
 
 import com.example.bakingtime.IdlingResource.SimpleIdlingResource;
 import com.example.bakingtime.R;
-import com.example.bakingtime.Utils.StringUtils;
+import com.example.bakingtime.utils.StringUtils;
 import com.example.bakingtime.database.Recipe;
 import com.example.bakingtime.database.RecipesClient;
 

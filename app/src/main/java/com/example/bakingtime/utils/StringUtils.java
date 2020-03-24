@@ -12,7 +12,7 @@
     limitations under the License.
 */
 
-package com.example.bakingtime.Utils;
+package com.example.bakingtime.utils;
 
 import com.example.bakingtime.database.Ingredient;
 

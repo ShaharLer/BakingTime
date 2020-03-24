@@ -18,19 +18,15 @@
     <string name="error_message">An error has occurred.\n\nPlease try again by clicking the REFRESH button below</string>
     <string name="prev_step_text">Prev step</string>
     <string name="next_step_text">Next step</string>
-    <string name="recipe_ingredients_details_list">Recipe Ingredients</string>
     <string name="ingredients_list_headline">Ingredients list</string>
     <string name="recipe_error">Recipe data not available</string>
     <string name="recipe_step_error">Recipe step data not available</string>
     <string name="recipe_ingredients_list_error">Recipe ingredients list is not available</string>
     <string name="video_not_available_description">An image showing video is not available for this step</string>
-    <string name="appwidget_description">widget for showing the ingredients list of hte chosen recipe</string>
     <string name="pref_recipe_name_key" translatable="false">desired_recipe_name</string>
     <string name="pref_default_recipe_name">@string/app_name</string>
     <string name="pref_recipe_ingredients_list_key" translatable="false">desired_recipe_ingredients_list</string>
     <string name="pref_default_recipe_ingredients_list">No recipe was chosen.\n\nPlease enter to one of the recipes, in order to see it\'s ingredients list through this widget</string>
-    <string name="appwidget_text">Baking</string>
-    <string name="add_widget">Add widget</string>
     <string name="intent_widget">widget</string>
     <string name="widget_content_description">The image of the homescreen widget</string>
 </resources>
