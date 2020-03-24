@@ -14,12 +14,16 @@
 
 package com.example.bakingtime.ui;
 
+import android.content.Context;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -59,7 +63,6 @@ public class RecipeStepFragment extends Fragment {
     private static final String SAVED_INSTANCE_VIDEO_START_POSITION = "position";
     private static final String SAVED_INSTANCE_VIDEO_AUTO_PLAY = "auto_play";
     private static final int TABLET_SMALLEST_SCREEN_WIDTH = 600;
-    private String mVideoUrl;
     private Step mStep;
     private boolean mHasPrev;
     private boolean mHasNext;
@@ -100,7 +103,6 @@ public class RecipeStepFragment extends Fragment {
             ((RecipeStepActivity) requireActivity()).closeOnError();
             return null;
         }
-        mVideoUrl = mStep.getVideoURL().isEmpty() ? mStep.getThumbnailURL() : mStep.getVideoURL();
 
         View rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
         unbinder = ButterKnife.bind(this, rootView);
@@ -168,9 +170,13 @@ public class RecipeStepFragment extends Fragment {
     }
 
     private void executeInitPlayer() {
-        if (mVideoUrl != null && !mVideoUrl.isEmpty()) {
+        String videoUrl = mStep.getVideoURL();
+        if (videoUrl == null || videoUrl.isEmpty()) {
+            videoUrl = mStep.getThumbnailURL();
+        }
+        if (isNetworkAvailable() && URLUtil.isValidUrl(videoUrl)) {
             showVideo();
-            initializePlayer(mVideoUrl);
+            initializePlayer(videoUrl);
             if (mPlayerView != null) {
                 mPlayerView.onResume();
             }
@@ -179,14 +185,19 @@ public class RecipeStepFragment extends Fragment {
         }
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager =
+                (ConnectivityManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (manager != null) {
+            networkInfo = manager.getActiveNetworkInfo();
+        }
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
     private void showVideo() {
         mNoVideoIv.setVisibility(View.GONE);
         mPlayerView.setVisibility(View.VISIBLE);
-    }
-
-    private void showVideoError() {
-        mPlayerView.setVisibility(View.GONE);
-        mNoVideoIv.setVisibility(View.VISIBLE);
     }
 
     private void initializePlayer(String videoUrl) {
@@ -204,6 +215,11 @@ public class RecipeStepFragment extends Fragment {
         mPlayer.prepare(mediaSource, !haveStartPosition, false);
         mPlayer.setPlayWhenReady(mStartAutoPlay);
         mPlayerView.setPlayer(mPlayer);
+    }
+
+    private void showVideoError() {
+        mPlayerView.setVisibility(View.GONE);
+        mNoVideoIv.setVisibility(View.VISIBLE);
     }
 
     @Override
