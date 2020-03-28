@@ -1,3 +1,5 @@
+package com.example.bakingtime.ui;
+
 /*
     Copyright (C) 2020 The Android Open Source Project
 
@@ -11,8 +13,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-
-package com.example.bakingtime.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,24 +33,19 @@ public class RecipeIngredientsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_ingredients);
         setSupportActionBar(findViewById(R.id.my_toolbar));
 
-        boolean fromWidget = false;
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-            fromWidget = true;
-            ActionBarUtils.setToolbarTitle(this, Objects.requireNonNull(getSupportActionBar()), false);
-        } else {
-            ActionBarUtils.setToolbarTitle(this, Objects.requireNonNull(getSupportActionBar()), true);
-        }
+        boolean homeAsUpEnabled = !intent.hasExtra(Intent.EXTRA_TEXT);
+        ActionBarUtils.setToolbarTitle(this, Objects.requireNonNull(getSupportActionBar()), homeAsUpEnabled);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.recipe_ingredients_container, new RecipeIngredientsFragment(fromWidget))
+                    .add(R.id.recipe_ingredients_container, new RecipeIngredientsFragment())
                     .commit();
         }
     }
 
     void closeOnError() {
         finish();
-        Toast.makeText(this, R.string.recipe_ingredients_list_error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.recipe_ingredients_list_error, Toast.LENGTH_LONG).show();
     }
 }

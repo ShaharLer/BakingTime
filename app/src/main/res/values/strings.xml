@@ -25,8 +25,8 @@
     <string name="video_not_available_description">An image showing video is not available for this step</string>
     <string name="pref_recipe_name_key" translatable="false">desired_recipe_name</string>
     <string name="pref_default_recipe_name">@string/app_name</string>
-    <string name="pref_recipe_ingredients_list_key" translatable="false">desired_recipe_ingredients_list</string>
-    <string name="pref_default_recipe_ingredients_list">No recipe was chosen.\n\nPlease enter to one of the recipes, in order to see it\'s ingredients list through this widget</string>
+    <string name="pref_recipe_ingredients_list_size_key" translatable="false">desired_recipe_ingredients_list_size_key</string>
+    <string name="pref_recipe_ingredients_list_name_key" translatable="false">desired_recipe_ingredients_list_name_key</string>
+    <string name="pref_default_recipe_ingredients_list">No recipe was seen yet</string>
     <string name="intent_widget">widget</string>
-    <string name="widget_content_description">The image of the homescreen widget</string>
 </resources>

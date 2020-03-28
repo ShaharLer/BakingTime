@@ -1,3 +1,5 @@
+package com.example.bakingtime.ui;
+
 /*
     Copyright (C) 2020 The Android Open Source Project
 
@@ -11,8 +13,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-
-package com.example.bakingtime.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -66,10 +66,9 @@ public class RecipeDetailsFragment extends Fragment implements RecipeDetailsAdap
             return null;
         }
 
-        mAdapter = new RecipeDetailsAdapter(this, mRecipe.getIngredients(),
-                mRecipe.getSteps(), mTwoPane, mCurrentChosenPosition);
         View rootView = inflater.inflate(R.layout.fragment_recipe_details_list, container, false);
         RecyclerView mRecipesRecyclerView = rootView.findViewById(R.id.rv_recipe_details);
+        mAdapter = new RecipeDetailsAdapter(this, mRecipe.getSteps(), mTwoPane, mCurrentChosenPosition);
         mRecipesRecyclerView.setAdapter(mAdapter);
         mRecipesRecyclerView.setHasFixedSize(true);
         return rootView;

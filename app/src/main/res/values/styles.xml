@@ -52,6 +52,14 @@
         <item name="spanCount">1</item>
     </style>
 
+    <style name="recipeIngredientsListStyle" parent="recyclerViewListStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:background">@drawable/ingredients_view_background</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="spanCount">1</item>
+    </style>
+
 
     <style name="textViewStyle">
         <item name="android:background">@drawable/text_view_background</item>
@@ -131,27 +139,17 @@
     </style>
 
 
-    <style name="recipeIngredientsScrollView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_margin">25dp</item>
-    </style>
-
-
-    <style name="ingredientsTextView" parent="textViewStyle">
+    <style name="ingredientsTextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:padding">25dp</item>
-    </style>
-
-    <style name="ingredientsTextViewPhone" parent="ingredientsTextView">
-        <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="ingredientsTextViewTablet" parent="ingredientsTextView">
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingStart">25dp</item>
+        <item name="android:paddingEnd">25dp</item>
         <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
 
@@ -266,6 +264,24 @@
     <style name="errorButtonTablet" parent="errorButton">
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:padding">20dp</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+
+    <style name="widgetRecipeName" parent="listTextView">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+
+    <style name="widgetEmptyView" parent="textViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/widget_view_background</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:text">@string/pref_default_recipe_ingredients_list</item>
         <item name="android:textSize">22sp</item>
     </style>
 

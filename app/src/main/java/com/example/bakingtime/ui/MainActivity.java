@@ -1,3 +1,5 @@
+package com.example.bakingtime.ui;
+
 /*
     Copyright (C) 2020 The Android Open Source Project
 
@@ -12,20 +14,23 @@
     limitations under the License.
 */
 
-package com.example.bakingtime.ui;
-
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.bakingtime.IdlingResource.SimpleIdlingResource;
 import com.example.bakingtime.R;
-import com.example.bakingtime.utils.StringUtils;
 import com.example.bakingtime.database.Recipe;
 import com.example.bakingtime.database.RecipesClient;
+import com.example.bakingtime.utils.StringUtils;
+import com.example.bakingtime.widget.RecipeWidgetProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,14 +151,32 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
     @Override
     public void onRecipeClicked(int position) {
         Recipe chosenRecipe = mRecipesAdapter.getRecipes().get(position);
-        String ingredientsList = StringUtils.getIngredientsList(chosenRecipe.getIngredients());
-        PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putString(getString(R.string.pref_recipe_name_key), chosenRecipe.getName())
-                .putString(getString(R.string.pref_recipe_ingredients_list_key), ingredientsList)
-                .apply();
-        Intent intent = new Intent(this, RecipeDetailsActivity.class);
-        intent.putExtra(Intent.EXTRA_TEXT, chosenRecipe);
-        startActivity(intent);
+        List<String> ingredientsDetailsList = StringUtils.getIngredientsDetailsList(chosenRecipe.getIngredients());
+        if (ingredientsDetailsList == null || ingredientsDetailsList.isEmpty()) {
+            Toast.makeText(this, R.string.recipe_error, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putString(getString(R.string.pref_recipe_name_key), chosenRecipe.getName());
+        editor.putInt(getString(R.string.pref_recipe_ingredients_list_size_key), ingredientsDetailsList.size());
+        String ingredientsListNameKey = getString(R.string.pref_recipe_ingredients_list_name_key);
+        for (int i = 0; i < ingredientsDetailsList.size(); i++) {
+            editor.putString(ingredientsListNameKey + i, ingredientsDetailsList.get(i));
+        }
+        editor.apply();
+
+        // send broadcast to get the homescreen widget updated
+        Intent widgetIntent = new Intent(this, RecipeWidgetProvider.class);
+        widgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(getApplication())
+                .getAppWidgetIds(new ComponentName(getApplication(), RecipeWidgetProvider.class));
+        widgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(widgetIntent);
+
+        Intent appIntent = new Intent(this, RecipeDetailsActivity.class);
+        appIntent.putExtra(Intent.EXTRA_TEXT, chosenRecipe);
+        startActivity(appIntent);
     }
 
     @Override

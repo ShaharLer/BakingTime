@@ -1,3 +1,5 @@
+package com.example.bakingtime.ui;
+
 /*
     Copyright (C) 2020 The Android Open Source Project
 
@@ -12,62 +14,43 @@
     limitations under the License.
 */
 
-package com.example.bakingtime.ui;
-
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.bakingtime.R;
+import com.example.bakingtime.utils.StringUtils;
+
+import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RecipeIngredientsFragment extends Fragment {
 
-    private static final String SAVED_INSTANCE_FROM_WIDGET = "from widget";
-    private boolean mFromWidget;
-
     public RecipeIngredientsFragment() {
-    }
-
-    RecipeIngredientsFragment(boolean fromWidget) {
-        mFromWidget = fromWidget;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            mFromWidget = savedInstanceState.getBoolean(SAVED_INSTANCE_FROM_WIDGET);
-        }
-
-        String ingredients;
-        if (mFromWidget) {
-            ingredients = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(
-                    getString(R.string.pref_recipe_ingredients_list_key), getString(R.string.pref_default_recipe_ingredients_list));
-        } else {
-            ingredients = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(
-                    getString(R.string.pref_recipe_ingredients_list_key), null);
-        }
-
-        if (ingredients == null || ingredients.isEmpty()) {
+        List<String> ingredientsDetailsList = StringUtils.getSharedPreferencesIngredientsList(getContext());
+        if (ingredientsDetailsList == null || ingredientsDetailsList.isEmpty()) {
             ((RecipeIngredientsActivity) requireActivity()).closeOnError();
             return null;
         }
 
         View rootView = inflater.inflate(R.layout.fragment_recipe_ingredients, container, false);
-        ((TextView) rootView.findViewById(R.id.recipe_ingredients_list_tv)).setText(ingredients);
+        RecyclerView mRecipeIngredientsRv = rootView.findViewById(R.id.rv_recipe_ingredients);
+        mRecipeIngredientsRv.setAdapter(new RecipeIngredientsAdapter(ingredientsDetailsList));
+        mRecipeIngredientsRv.addItemDecoration(new DividerItemDecoration(
+                Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
+        mRecipeIngredientsRv.setHasFixedSize(true);
         return rootView;
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(SAVED_INSTANCE_FROM_WIDGET, mFromWidget);
     }
 }

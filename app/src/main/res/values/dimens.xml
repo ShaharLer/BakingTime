@@ -18,8 +18,8 @@
     <dimen name="recipe_buttons_layout_margin_horizontal">10dp</dimen>
     <dimen name="recipe_buttons_layout_margin_vertical">8dp</dimen>
     <dimen name="line_seperator_width">1dp</dimen>
-    <dimen name="appwidget_min_size">40dp</dimen>
-    <dimen name="widget_image_height">621dp</dimen>
+    <dimen name="appwidget_min_height">110dp</dimen>
+    <dimen name="appwidget_min_width">250dp</dimen>
     <dimen name="button_radius">25dp</dimen>
     <dimen name="button_frame_width">3dp</dimen>
     <dimen name="text_view_radius">20dp</dimen>
@@ -32,5 +32,4 @@
     <dimen name="timebar_height">18dp</dimen>
     <dimen name="exo_duration_padding_horizontal">4dp</dimen>
     <dimen name="exo_duration_text_size">14sp</dimen>
-    <dimen name="widget_margin">0dp</dimen>
 </resources>

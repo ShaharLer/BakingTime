@@ -1,3 +1,5 @@
+package com.example.bakingtime.database;
+
 /*
     Copyright (C) 2020 The Android Open Source Project
 
@@ -11,8 +13,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-
-package com.example.bakingtime.database;
 
 import java.util.List;
 

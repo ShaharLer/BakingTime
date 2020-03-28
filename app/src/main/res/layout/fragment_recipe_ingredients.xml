@@ -13,11 +13,6 @@
     limitations under the License.
 -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/recipeIngredientsScrollView">
-
-    <TextView
-        android:id="@+id/recipe_ingredients_list_tv"
-        style="@style/ingredientsTextViewPhone" />
-
-</ScrollView>
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rv_recipe_ingredients"
+    style="@style/recipeIngredientsListStyle" />

@@ -1,3 +1,5 @@
+package com.example.bakingtime.ui;
+
 /*
     Copyright (C) 2020 The Android Open Source Project
 
@@ -12,15 +14,12 @@
     limitations under the License.
 */
 
-package com.example.bakingtime.ui;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.bakingtime.R;
-import com.example.bakingtime.database.Ingredient;
 import com.example.bakingtime.database.Step;
 
 import java.util.List;
@@ -33,7 +32,6 @@ import butterknife.ButterKnife;
 public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdapter.RecipeDetailsViewHolder> {
 
     private final RecipeDetailsOnClickHandler mClickHandler;
-    private List<Ingredient> mIngredients;
     private List<Step> mSteps;
     private boolean mTwoPane;
     private int mCurrentChosenPosition;
@@ -43,10 +41,9 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
         void onStepClicked(int position);
     }
 
-    RecipeDetailsAdapter(RecipeDetailsOnClickHandler clickHandler, List<Ingredient> ingredients,
-                         List<Step> recipesSteps, boolean twoPane, int currentChosenPosition) {
+    RecipeDetailsAdapter(RecipeDetailsOnClickHandler clickHandler, List<Step> recipesSteps,
+                         boolean twoPane, int currentChosenPosition) {
         mClickHandler = clickHandler;
-        mIngredients = ingredients;
         mSteps = recipesSteps;
         mTwoPane = twoPane;
         mCurrentChosenPosition = currentChosenPosition;
@@ -81,7 +78,7 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
 
     @Override
     public int getItemCount() {
-        if (mIngredients == null || mSteps == null) return 0;
+        if (mSteps == null) return 0;
         return (mSteps.size() + 1); // +1 for the ingredients list
     }
 

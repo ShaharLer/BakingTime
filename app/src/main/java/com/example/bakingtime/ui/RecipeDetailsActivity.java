@@ -1,3 +1,5 @@
+package com.example.bakingtime.ui;
+
 /*
     Copyright (C) 2020 The Android Open Source Project
 
@@ -11,8 +13,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-
-package com.example.bakingtime.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,7 +53,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
     void closeOnError() {
         finish();
-        Toast.makeText(this, R.string.recipe_error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.recipe_error, Toast.LENGTH_LONG).show();
     }
 
     public void createStepFragment(Step step) {
@@ -61,7 +61,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     }
 
     public void createIngredientsFragment(boolean addFragment) {
-        makeFragmentTransaction(new RecipeIngredientsFragment(false), addFragment);
+        makeFragmentTransaction(new RecipeIngredientsFragment(), addFragment);
     }
 
     private void makeFragmentTransaction(Fragment fragment, boolean addFragment) {

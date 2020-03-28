@@ -1,3 +1,5 @@
+package com.example.bakingtime.widget;
+
 /*
     Copyright (C) 2020 The Android Open Source Project
 
@@ -12,17 +14,18 @@
     limitations under the License.
 */
 
-package com.example.bakingtime.widget;
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.widget.RemoteViews;
 
 import com.example.bakingtime.R;
+import com.example.bakingtime.ui.MainActivity;
 import com.example.bakingtime.ui.RecipeIngredientsActivity;
+import com.example.bakingtime.utils.ActionBarUtils;
 
 /**
  * Implementation of App Widget functionality.
@@ -32,16 +35,34 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
+        Intent mainActivityIntent = new Intent(context, MainActivity.class);
+        PendingIntent mainActivityPendingIntent =
+                PendingIntent.getActivity(context, 0, mainActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent ingredientsActivityIntent = new Intent(context, RecipeIngredientsActivity.class);
+        ingredientsActivityIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.intent_widget));
+        PendingIntent ingredientsActivityPendingIntent =
+                PendingIntent.getActivity(context, 0, ingredientsActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent serviceIntent = new Intent(context, ListWidgetService.class);
+
+        String recipeName = ActionBarUtils.getSharedPreferencesRecipeName(context);
+
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
+        views.setTextViewText(R.id.widget_recipe_name, recipeName);
+        views.setRemoteAdapter(R.id.widget_list_view, serviceIntent);
+        views.setEmptyView(R.id.widget_list_view, R.id.empty_view);
+        views.setPendingIntentTemplate(R.id.widget_list_view, ingredientsActivityPendingIntent);
 
-        Intent intent = new Intent(context, RecipeIngredientsActivity.class);
-        intent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.intent_widget));
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 , intent, 0);
+        Resources resources = context.getResources();
+        if (recipeName.equals(resources.getString(R.string.pref_default_recipe_name))) {
+            views.setOnClickPendingIntent(R.id.widget_recipe_name, mainActivityPendingIntent);
+        } else {
+            views.setOnClickPendingIntent(R.id.widget_recipe_name, ingredientsActivityPendingIntent);
+        }
 
-        views.setOnClickPendingIntent(R.id.widget_baking_image, pendingIntent);
-
-        // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list_view);
     }
 
     @Override

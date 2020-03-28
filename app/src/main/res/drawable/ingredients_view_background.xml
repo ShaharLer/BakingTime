@@ -13,11 +13,14 @@
     limitations under the License.
 -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/recipeIngredientsScrollView">
-
-    <TextView
-        android:id="@+id/recipe_ingredients_list_tv"
-        style="@style/ingredientsTextViewTablet" />
-
-</ScrollView>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:attr/colorControlHighlight">
+    <item>
+        <shape>
+            <solid android:color="@color/itemBackgroundColor" />
+            <stroke
+                android:width="@dimen/text_view_frame_width"
+                android:color="@android:color/black" />
+        </shape>
+    </item>
+</ripple>

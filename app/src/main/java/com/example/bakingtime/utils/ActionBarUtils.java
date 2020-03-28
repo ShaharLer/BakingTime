@@ -1,3 +1,5 @@
+package com.example.bakingtime.utils;
+
 /*
     Copyright (C) 2020 The Android Open Source Project
 
@@ -12,9 +14,7 @@
     limitations under the License.
 */
 
-package com.example.bakingtime.utils;
-
-import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
@@ -24,13 +24,16 @@ import androidx.appcompat.app.ActionBar;
 
 public class ActionBarUtils {
 
-    public static void setToolbarTitle(Activity activity, ActionBar actionBar, boolean homeAsUpEnabled) {
-        Resources resources = activity.getResources();
+    public static void setToolbarTitle(Context context, ActionBar actionBar, boolean homeAsUpEnabled) {
+        actionBar.setDisplayHomeAsUpEnabled(homeAsUpEnabled);
+        actionBar.setTitle(getSharedPreferencesRecipeName(context));
+    }
+
+    public static String getSharedPreferencesRecipeName(Context context) {
+        Resources resources = context.getResources();
         String prefRecipeNameKey = resources.getString(R.string.pref_recipe_name_key);
         String prefDefaultRecipeName = resources.getString(R.string.pref_default_recipe_name);
-        String recipeName = PreferenceManager.getDefaultSharedPreferences(activity)
-                                .getString(prefRecipeNameKey, prefDefaultRecipeName);
-        actionBar.setDisplayHomeAsUpEnabled(homeAsUpEnabled);
-        actionBar.setTitle(recipeName);
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(prefRecipeNameKey, prefDefaultRecipeName);
     }
 }

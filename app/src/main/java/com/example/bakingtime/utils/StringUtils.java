@@ -1,3 +1,5 @@
+package com.example.bakingtime.utils;
+
 /*
     Copyright (C) 2020 The Android Open Source Project
 
@@ -12,43 +14,63 @@
     limitations under the License.
 */
 
-package com.example.bakingtime.utils;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import com.example.bakingtime.R;
 import com.example.bakingtime.database.Ingredient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StringUtils {
 
-    private static final String INGREDIENT_PREFIX = "*  ";
     private static final String INGREDIENT_SEPARATOR = " ";
-    private static final String INGREDIENTS_SEPARATOR = "\n\n";
+    private static final int INGREDIENTS_LIST_DEFAULT_SIZE = 0;
 
-    public static String getIngredientsList(List<Ingredient> ingredients) {
-        if (ingredients == null) {
+    public static List<String> getIngredientsDetailsList(List<Ingredient> ingredientList) {
+        if (ingredientList == null) {
             return null;
         }
 
-        StringBuilder ingredientsList = new StringBuilder();
-        for (int i = 0; i < ingredients.size(); i++) {
-            Ingredient ingredient = ingredients.get(i);
-            ingredientsList.append(INGREDIENT_PREFIX)
-                    .append(getQuantityInString(ingredient.getQuantity()))
-                    .append(INGREDIENT_SEPARATOR)
-                    .append(ingredient.getMeasure())
-                    .append(INGREDIENT_SEPARATOR)
-                    .append(ingredient.getIngredient());
-
-            if (i < ingredients.size() - 1) {
-                ingredientsList.append(INGREDIENTS_SEPARATOR);
-            }
+        List<String> ingredientsDetailsList = new ArrayList<>();
+        for (Ingredient ingredient : ingredientList) {
+            ingredientsDetailsList.add(getIngredientAsString(ingredient));
         }
-        return ingredientsList.toString();
+
+        return ingredientsDetailsList;
+    }
+
+    private static String getIngredientAsString(Ingredient ingredient) {
+        return getQuantityInString(ingredient.getQuantity()) +
+                INGREDIENT_SEPARATOR +
+                ingredient.getMeasure() +
+                INGREDIENT_SEPARATOR +
+                ingredient.getIngredient();
     }
 
     private static String getQuantityInString(double quantityDouble) {
         int quantityInteger = (int) quantityDouble;
         return quantityDouble == Math.floor(quantityDouble) ?
                 String.valueOf(quantityInteger) : String.valueOf(quantityDouble);
+    }
+
+    public static List<String> getSharedPreferencesIngredientsList(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        List<String> ingredientsDetailsList = new ArrayList<>();
+
+        int ingredientsDetailsListSize = sharedPreferences.getInt(context.getString(
+                R.string.pref_recipe_ingredients_list_size_key), INGREDIENTS_LIST_DEFAULT_SIZE);
+        for (int i = 0; i < ingredientsDetailsListSize; i++) {
+            String ingredientDetails = sharedPreferences.getString(
+                    context.getString(R.string.pref_recipe_ingredients_list_name_key) + i, null);
+            if (ingredientDetails == null) {
+                return null;
+            }
+            ingredientsDetailsList.add(ingredientDetails);
+        }
+
+        return ingredientsDetailsList;
     }
 }
